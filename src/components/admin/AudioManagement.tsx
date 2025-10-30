@@ -338,9 +338,19 @@ const AudioManagement = () => {
                   <div className="mt-4 space-y-4">
                     {/* Instruções gerais */}
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
-                      <div className="flex items-center gap-2 text-blue-900 font-medium">
-                        <FolderOpen className="h-4 w-4" />
-                        Organização por pastas de locutor
+                      <div className="flex items-center justify-between text-blue-900 font-medium">
+                        <div className="flex items-center gap-2">
+                          <FolderOpen className="h-4 w-4" />
+                          Organização por pastas de locutor
+                        </div>
+                        <a
+                          href="https://github.com/ArturLocutor/OffsNaHora/tree/main/public/audios"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium px-3 py-2 rounded-md"
+                        >
+                          Adcionar Audios
+                        </a>
                       </div>
                       
                       <div className="space-y-3 text-sm text-slate-800">
