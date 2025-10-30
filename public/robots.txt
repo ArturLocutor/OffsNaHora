@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Evitar indexação de páginas administrativas
+Disallow: /admin
+Disallow: /login
+
+Sitemap: /sitemap.xml

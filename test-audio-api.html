@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste API de Áudio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Teste da API de Áudio</h1>
+        
+        <div class="test-section info">
+            <h3>📋 Instruções</h3>
+            <p>Este teste verifica se a API de áudio está funcionando corretamente.</p>
+            <p><strong>URL atual:</strong> <span id="current-url">Carregando...</span></p>
+        </div>
+
+        <div class="test-section">
+            <h3>🎵 Teste 1: Listar Arquivos</h3>
+            <button onclick="testListFiles()">Testar Listagem</button>
+            <div id="list-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📁 Teste 2: Verificar Pasta</h3>
+            <button onclick="testCheckFolder()">Verificar Pasta</button>
+            <div id="folder-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔄 Teste 3: Sincronização</h3>
+            <button onclick="testSync()">Testar Sincronização</button>
+            <div id="sync-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Status do Sistema</h3>
+            <div id="system-status"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar URL atual
+        document.getElementById('current-url').textContent = window.location.origin;
+
+        async function testListFiles() {
+            const resultDiv = document.getElementById('list-result');
+            resultDiv.innerHTML = '<p>🔄 Testando...</p>';
+            
+            try {
+                const response = await fetch('/api/audio-files');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h4>✅ Sucesso!</h4>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Arquivos encontrados:</strong> ${data.files ? data.files.length : 0}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <h4>❌ Erro!</h4>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro de Conexão!</h4>
+                        <p><strong>Erro:</strong> ${error.message}</p>
+                        <p>Verifique se o servidor está rodando.</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testCheckFolder() {
+            const resultDiv = document.getElementById('folder-result');
+            resultDiv.innerHTML = '<p>🔄 Verificando...</p>';
+            
+            try {
+                // Tentar acessar um arquivo de teste
+                const testResponse = await fetch('/audios/test.mp3');
+                
+                if (testResponse.status === 404) {
+                    resultDiv.innerHTML = `
+                        <div class="info">
+                            <h4>ℹ️ Pasta de Áudios</h4>
+                            <p>A pasta <code>/audios/</code> está acessível.</p>
+                            <p>Arquivo de teste não encontrado (esperado).</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h4>✅ Pasta Acessível</h4>
+                            <p>A pasta de áudios está funcionando corretamente.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao Acessar Pasta</h4>
+                        <p><strong>Erro:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testSync() {
+            const resultDiv = document.getElementById('sync-result');
+            resultDiv.innerHTML = '<p>🔄 Sincronizando...</p>';
+            
+            try {
+                // Simular a sincronização
+                const response = await fetch('/api/audio-files');
+                const data = await response.json();
+                
+                if (response.ok && data.files) {
+                    const storedAudios = localStorage.getItem('siteAudios');
+                    const audios = storedAudios ? JSON.parse(storedAudios) : [];
+                    
+                    const serverFileNames = data.files.map(file => file.name);
+                    const validAudios = audios.filter(audio => 
+                        audio.fileName && serverFileNames.includes(audio.fileName)
+                    );
+                    
+                    const existingFileNames = validAudios.map(audio => audio.fileName);
+                    const newFiles = serverFileNames.filter(fileName => !existingFileNames.includes(fileName));
+                    
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h4>✅ Sincronização Testada</h4>
+                            <p><strong>Áudios no localStorage:</strong> ${audios.length}</p>
+                            <p><strong>Arquivos no servidor:</strong> ${serverFileNames.length}</p>
+                            <p><strong>Áudios válidos:</strong> ${validAudios.length}</p>
+                            <p><strong>Novos arquivos:</strong> ${newFiles.length}</p>
+                            ${newFiles.length > 0 ? `<p><strong>Novos:</strong> ${newFiles.join(', ')}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <h4>❌ Erro na Sincronização</h4>
+                            <p>Não foi possível acessar os arquivos do servidor.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro de Conexão</h4>
+                        <p><strong>Erro:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Status do sistema
+        function updateSystemStatus() {
+            const statusDiv = document.getElementById('system-status');
+            const now = new Date();
+            
+            statusDiv.innerHTML = `
+                <div class="info">
+                    <h4>📊 Status do Sistema</h4>
+                    <p><strong>URL:</strong> ${window.location.origin}</p>
+                    <p><strong>Hora:</strong> ${now.toLocaleString()}</p>
+                    <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+                    <p><strong>Online:</strong> ${navigator.onLine ? '✅ Sim' : '❌ Não'}</p>
+                </div>
+            `;
+        }
+
+        // Atualizar status ao carregar
+        updateSystemStatus();
+    </script>
+</body>
+</html> 
