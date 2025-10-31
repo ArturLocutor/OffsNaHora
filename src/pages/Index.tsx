@@ -130,12 +130,12 @@ const Index = () => {
             
             <Reveal>
               <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-                Artur Sutto
+                Offs Na Hora
               </h1>
             </Reveal>
             <Reveal delay={80}>
               <h2 className="text-3xl md:text-4xl font-bold text-blue-300 mb-6">
-                Locutor Profissional
+                Locução Profissional
               </h2>
             </Reveal>
             <Reveal delay={140}>
@@ -278,7 +278,7 @@ const Index = () => {
                 <div className="relative">
                   <img 
                     src={configs['profile_image'] || "https://i.imgur.com/5H6o9S0.jpeg"} 
-                    alt="Artur Sutto - Locutor Profissional" 
+                    alt="Offs Na Hora - Locução Profissional" 
                     className="rounded-2xl shadow-2xl max-w-sm w-full h-auto border-4 border-white/20 transform hover:scale-105 transition-all duration-300"
                   />
                   <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
@@ -404,8 +404,8 @@ const Index = () => {
                   <Mic className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Offs na Hora</h3>
-                  <p className="text-blue-100">Locutor Profissional</p>
+                  <h3 className="text-2xl font-bold text-white">Offs Na Hora</h3>
+                  <p className="text-blue-100">Locução Profissional</p>
                 </div>
               </div>
             </div>
@@ -444,7 +444,7 @@ const Index = () => {
           
           <div className="text-center mt-8 pt-8 border-t border-white/10">
             <p className="text-blue-100/70">
-              © 2024 Artur Sutto - Offs na Hora. Todos os direitos reservados.
+              © 2024 Offs Na Hora. Todos os direitos reservados.
             </p>
           </div>
         </div>

@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           username: email,
           role: 'admin',
           permissions: ['all'],
-          isMainAdmin: email === 'Locutor',
+          isMainAdmin: email === 'Vinicius',
           profile: null
         };
 

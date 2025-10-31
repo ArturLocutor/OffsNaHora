@@ -6,6 +6,7 @@ import { getAudioUrl } from '@/utils/publicAudioManager';
 import { recordEvent } from '../utils/metrics';
 import WaveProgressBar from './WaveProgressBar';
 import AudioWaveIcon from './AudioWaveIcon';
+import { registerAudio, unregisterAudio, pauseAllExcept } from '@/utils/audioController';
 
 interface PublicAudioPlayerProps {
   title?: string;
@@ -35,6 +36,8 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    // Registrar o elemento de áudio para controle global
+    registerAudio(audio);
 
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
@@ -47,11 +50,22 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
       setError(false);
     };
 
+    const handlePlayEvent = () => {
+      pauseAllExcept(audio);
+      setIsPlaying(true);
+    };
+
+    const handlePauseEvent = () => {
+      setIsPlaying(false);
+    };
+
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
     audio.addEventListener('durationchange', updateDuration);
     audio.addEventListener('loadeddata', handleLoadedData);
     audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('play', handlePlayEvent);
+    audio.addEventListener('pause', handlePauseEvent);
 
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
@@ -59,6 +73,9 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
       audio.removeEventListener('durationchange', updateDuration);
       audio.removeEventListener('loadeddata', handleLoadedData);
       audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('play', handlePlayEvent);
+      audio.removeEventListener('pause', handlePauseEvent);
+      unregisterAudio(audio);
     };
   }, []);
 
@@ -69,6 +86,8 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      // Pausar todos os outros players antes de tocar
+      pauseAllExcept(audioRef.current);
       audioRef.current.play().catch(() => {
         setError(true);
       });
@@ -197,7 +216,7 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
           {/* Botão de play/pause com animação */}
           <div className="flex justify-center">
             <Button
-              onClick={togglePlay}
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
               variant="outline"
               size="sm"
               disabled={isLoading}
@@ -225,7 +244,7 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
             currentTime={currentTime}
             duration={duration}
             isPlaying={isPlaying}
-            onClick={handleProgressClick}
+            onClick={(e) => { e.stopPropagation(); handleProgressClick(e); }}
             size={extraCompact ? 'xs' : compact ? 'sm' : 'md'}
             variant={(extraCompact || compact) ? 'minimal' : 'default'}
           />
@@ -235,7 +254,7 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
             <span className="font-mono">{formatTime(currentTime)}</span>
             <div className="flex items-center gap-2">
               <Button
-                onClick={toggleMute}
+                onClick={(e) => { e.stopPropagation(); toggleMute(); }}
                 variant="ghost"
                 size="sm"
                 className={`p-1 ${extraCompact ? 'h-5 w-5' : 'h-6 w-6'} text-slate-300 hover:text-white hover:bg-white/10 rounded-full`}
@@ -248,7 +267,7 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
                 max="1"
                 step="0.1"
                 value={isMuted ? 0 : volume}
-                onChange={handleVolumeChange}
+                onChange={(e) => { e.stopPropagation(); handleVolumeChange(e); }}
                 className="w-12 h-1 bg-slate-600 rounded-full appearance-none cursor-pointer slider"
               />
             </div>

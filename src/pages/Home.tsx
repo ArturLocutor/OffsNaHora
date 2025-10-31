@@ -548,7 +548,7 @@ const Home = () => {
                           </div>
                           <div className={`text-sm ${colors.textSecondary} opacity-90 font-normal flex items-center gap-2`}>
                             <Radio className={`w-3 h-3 ${colors.icon}`} />
-                            Locutor Profissional
+                            Locução Profissional
                           </div>
                         </div>
                         {/* Botão Escolher este Locutor - Quadrado ao lado com texto */}
@@ -1089,7 +1089,7 @@ const Home = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-white">Offs na Hora</h3>
-                  <p className="text-blue-100">Locutor Profissional</p>
+                  <p className="text-blue-100">Locução Profissional</p>
                 </div>
               </div>
             </div>
@@ -1113,7 +1113,7 @@ const Home = () => {
           </div>
           
           <div className="text-center mt-8 pt-8 border-t border-white/10">
-            <p className="text-blue-200">&copy; 2025 Artur Sutto - Locutor Profissional. Todos os direitos reservados.</p>
+            <p className="text-blue-200">&copy; 2025 Offs Na Hora. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

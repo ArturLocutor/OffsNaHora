@@ -138,6 +138,7 @@ const Admin = () => {
                     <LayoutList className="h-4 w-4" />
                     Serviços
                   </TabsTrigger>
+                  
                 </TabsList>
 
                 <div className="p-6 bg-gradient-to-br from-white to-gray-50">
@@ -147,6 +148,7 @@ const Admin = () => {
                   <TabsContent value="services" className="mt-0">
                     <ServiceManagement />
                   </TabsContent>
+                  
                 </div>
               </Tabs>
             </div>

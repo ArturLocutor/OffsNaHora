@@ -14,39 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      audios: {
-        Row: {
-          created_at: string
-          description: string | null
-          drive_id: string | null
-          file_path: string | null
-          id: string
-          order_position: number
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          drive_id?: string | null
-          file_path?: string | null
-          id?: string
-          order_position?: number
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          drive_id?: string | null
-          file_path?: string | null
-          id?: string
-          order_position?: number
-          title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       clients: {
         Row: {
           created_at: string

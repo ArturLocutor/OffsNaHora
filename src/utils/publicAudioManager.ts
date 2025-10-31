@@ -126,19 +126,22 @@ export const getAvailableAudioFiles = async (): Promise<string[]> => {
 };
 
 export const getAudioUrl = (fileName: string): string => {
+  // Normalizar separadores de caminho vindos do Windows (\\ -> /)
+  const normalized = fileName.replace(/\\/g, '/');
+
   // Verificar se é uma URL do Supabase (começa com https://)
-  if (fileName.startsWith('https://')) {
-    console.log('Supabase Audio URL:', fileName); // Debug
-    return fileName;
+  if (normalized.startsWith('https://')) {
+    console.log('Supabase Audio URL:', normalized); // Debug
+    return normalized;
   }
   // Se já é um caminho absoluto para /audios, retornar como está
-  if (fileName.startsWith('/audios/')) {
-    return fileName;
+  if (normalized.startsWith('/audios/')) {
+    return normalized;
   }
   
   // Caso contrário, usar URLs relativas que apontam para a pasta public/audios
   // Codificar corretamente caracteres especiais e espaços
-  const encoded = encodeURIComponent(fileName).replace(/%2F/g, '/');
+  const encoded = encodeURIComponent(normalized).replace(/%2F/g, '/');
   const url = `/audios/${encoded}`;
   console.log('Local Audio URL:', url); // Debug
   return url;

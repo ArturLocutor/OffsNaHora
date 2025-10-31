@@ -11,7 +11,7 @@ async function testDatabaseConnection() {
     console.log('🔍 Testando conexão com o banco de dados...\n');
 
     // Testar cada tabela
-    const tables = ['audios', 'site_config', 'site_texts', 'clients', 'google_drive_sessions'];
+    const tables = ['site_config', 'site_texts', 'clients'];
     
     for (const table of tables) {
       try {
@@ -34,33 +34,32 @@ async function testDatabaseConnection() {
       console.log(''); // Linha em branco
     }
 
-    // Testar inserção de dados
-    console.log('📝 Testando inserção de dados...\n');
-    
+    // Testar inserção/atualização básica nas tabelas ativas
+    console.log('📝 Testando inserção/atualização de dados...\n');
     try {
-      // Testar inserção na tabela audios
-      const { data: audioData, error: audioError } = await supabase
-        .from('audios')
-        .insert({
-          title: 'Teste de Áudio',
-          description: 'Áudio de teste inserido via script',
-          file_path: '/audios/teste.mp3',
-          file_url: '/audios/teste.mp3',
-          order_position: 999
-        })
-        .select();
-      
-      if (audioError) {
-        console.log('❌ Erro ao inserir áudio:', audioError.message);
+      const { error: configError } = await supabase
+        .from('site_config')
+        .upsert([
+          { config_key: 'site_title', config_value: 'Artur Sutto - Locutor Profissional' }
+        ]);
+      if (configError) {
+        console.log('⚠️ Erro ao upsert site_config:', configError.message);
       } else {
-        console.log('✅ Áudio inserido com sucesso:', audioData[0].id);
-        
-        // Remover o áudio de teste
-        await supabase.from('audios').delete().eq('id', audioData[0].id);
-        console.log('🗑️ Áudio de teste removido');
+        console.log('✅ Upsert em site_config OK');
+      }
+
+      const { error: textError } = await supabase
+        .from('site_texts')
+        .upsert([
+          { section: 'hero_subtitle', content: 'Locutor Profissional', description: 'Subtítulo da página' }
+        ]);
+      if (textError) {
+        console.log('⚠️ Erro ao upsert site_texts:', textError.message);
+      } else {
+        console.log('✅ Upsert em site_texts OK');
       }
     } catch (err) {
-      console.log('❌ Erro no teste de inserção:', err.message);
+      console.log('❌ Erro nos testes de inserção/atualização:', err.message);
     }
 
     console.log('\n🎉 Teste de conexão concluído!');

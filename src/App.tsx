@@ -5,8 +5,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SpeakerProvider } from "@/contexts/SpeakerContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import MainAdminRoute from "@/components/MainAdminRoute";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
+import Dev from "./pages/Dev";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -27,6 +29,18 @@ function App() {
                   <ProtectedRoute>
                     <Admin />
                   </ProtectedRoute>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route
+              path="/dev"
+              element={
+                enableAdmin ? (
+                  <MainAdminRoute>
+                    <Dev />
+                  </MainAdminRoute>
                 ) : (
                   <Navigate to="/" replace />
                 )

@@ -70,7 +70,7 @@ async function setupDatabase() {
     // Testar se as tabelas foram criadas
     console.log('\n🔍 Testando tabelas criadas...');
     
-    const tables = ['audios', 'site_config', 'site_texts', 'clients', 'google_drive_sessions'];
+    const tables = ['site_config', 'site_texts', 'clients'];
     
     for (const table of tables) {
       try {
@@ -118,29 +118,7 @@ async function setupDatabase() {
         console.log('✅ Textos inseridos com sucesso');
       }
 
-      // Inserir áudios de exemplo
-      const audioFiles = [
-        'audio1.mp3', 'audio2.mp3', 'audio3.mp3', 'audio4.mp3', 'audio5.mp3',
-        'audio6.mp3', 'audio7.mp3', 'audio8.mp3', 'audio9.mp3', 'audio10.mp3'
-      ];
-
-      const audioData = audioFiles.map((filename, index) => ({
-        title: `Áudio ${index + 1}`,
-        description: `Descrição do ${filename}`,
-        file_path: `/audios/${filename}`,
-        file_url: `/audios/${filename}`,
-        order_position: index + 1
-      }));
-
-      const { error: audiosError } = await supabase
-        .from('audios')
-        .upsert(audioData);
-      
-      if (audiosError) {
-        console.log('⚠️ Erro ao inserir áudios:', audiosError.message);
-      } else {
-        console.log('✅ Áudios inseridos com sucesso');
-      }
+      // Removido: inserção de áudios (tabela audios descontinuada)
 
     } catch (err) {
       console.log('⚠️ Erro ao inserir dados iniciais:', err.message);

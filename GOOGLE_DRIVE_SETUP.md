@@ -1,5 +1,9 @@
 # Configuração da Google Drive API
 
+> Nota importante sobre áudio e banco de dados
+>
+> A aplicação não utiliza mais tabela `audios` no Supabase para listar ou tocar arquivos. A gestão de áudio agora é feita por arquivos estáticos em `public/audios` (e gerados para `dist/audios`) e pelo endpoint estático `/api/audio-files` configurado no `vercel.json`. A integração com Google Drive segue útil para localizar/organizar arquivos e fluxos de importação, mas não grava nem depende de registros no banco.
+
 ## Problema Identificado
 O sistema não estava encontrando arquivos de áudio nas pastas do Google Drive porque a função `listAudioFilesFromFolder` estava usando uma implementação simulada que sempre retornava um array vazio.
 
@@ -69,6 +73,12 @@ npm run dev
 2. O usuário precisará fazer login com sua conta Google
 3. Funciona com qualquer pasta que o usuário tenha acesso
 
+### Fluxo Atual de Importação de Áudios
+- Identifique e baixe os arquivos via Google Drive (público ou autenticado).
+- Coloque os arquivos em `public/audios/<Pasta do Locutor>/` seguindo a organização desejada.
+- Rode `npm run build` para gerar `dist/audios` e `dist/audios.json` consumidos pelo site em produção (Vercel usa rewrites para servir estático).
+- Não é necessário inserir registros em banco para áudio.
+
 ## Formatos de Áudio Suportados
 
 O sistema detecta automaticamente os seguintes formatos:
@@ -118,6 +128,7 @@ O sistema detecta automaticamente os seguintes formatos:
 - `src/utils/googleDriveApi.ts` - Configuração OAuth2
 - `.env.local` - Variáveis de ambiente (criado)
 - `GOOGLE_DRIVE_SETUP.md` - Este guia (criado)
+ - `vercel.json` - Rewrites para servir `/api/audio-files` a partir de arquivos estáticos
 
 ## Status da Implementação
 
@@ -127,7 +138,9 @@ O sistema detecta automaticamente os seguintes formatos:
 - Detecção automática de arquivos de áudio
 - Tratamento de erros robusto
 - Configuração via variáveis de ambiente
+ - Gestão de áudio desvinculada de tabelas do Supabase (modo estático)
 
 🔄 **Próximos Passos:**
 - Configurar as chaves da API
 - Testar com pasta real do Google Drive
+ - Manter a organização de arquivos em `public/audios` para publicação

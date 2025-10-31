@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import WaveProgressBar from './WaveProgressBar';
+import { registerAudio, unregisterAudio, pauseAllExcept } from '@/utils/audioController';
 
 interface MiniAudioPlayerProps {
   audioFile: string;
@@ -52,15 +53,28 @@ const MiniAudioPlayer: React.FC<MiniAudioPlayerProps> = ({
     };
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime || 0);
     const handleEnded = () => setIsPlaying(false);
+    const handlePauseEvent = () => setIsPlaying(false);
+    const handlePlayEvent = () => {
+      pauseAllExcept(audio);
+      setIsPlaying(true);
+    };
+
+    // Registrar no controlador global
+    registerAudio(audio);
 
     audio.addEventListener('loadedmetadata', handleLoaded);
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('pause', handlePauseEvent);
+    audio.addEventListener('play', handlePlayEvent);
 
     return () => {
       audio.removeEventListener('loadedmetadata', handleLoaded);
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('pause', handlePauseEvent);
+      audio.removeEventListener('play', handlePlayEvent);
+      unregisterAudio(audio);
     };
   }, []);
 
@@ -71,6 +85,7 @@ const MiniAudioPlayer: React.FC<MiniAudioPlayerProps> = ({
     if (isPlaying) {
       audio.pause();
     } else {
+      pauseAllExcept(audio);
       audio.play();
     }
     setIsPlaying(!isPlaying);
@@ -93,7 +108,7 @@ const MiniAudioPlayer: React.FC<MiniAudioPlayerProps> = ({
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
       <div className="flex items-center space-x-4">
         <Button
-          onClick={togglePlay}
+          onClick={(e) => { e.stopPropagation(); togglePlay(); }}
           size="sm"
           className={`
             h-10 w-10 p-0 rounded-full flex-shrink-0 
@@ -126,7 +141,7 @@ const MiniAudioPlayer: React.FC<MiniAudioPlayerProps> = ({
                 currentTime={currentTime}
                 duration={duration}
                 isPlaying={isPlaying}
-                onClick={handleProgressClick}
+                onClick={(e) => { e.stopPropagation(); handleProgressClick(e); }}
                 colorScheme={colorScheme}
                 variant={waveVariant}
                 size={waveSize}

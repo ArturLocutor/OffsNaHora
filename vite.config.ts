@@ -30,10 +30,12 @@ function audioDevAndBuildPlugin() {
           // Se é um arquivo, verificar se é de áudio
           const ext = path.extname(item).toLowerCase();
           if (['.mp3', '.wav', '.ogg', '.m4a', '.aac'].includes(ext)) {
-            const fileName = relativePath ? path.join(relativePath, item) : item;
+            const fileNameRaw = relativePath ? path.join(relativePath, item) : item;
+            const fileName = fileNameRaw.replace(/\\/g, '/');
+            const webPath = `/audios/${fileName}`;
             files.push({
               name: fileName,
-              path: `/audios/${fileName}`,
+              path: webPath,
               size: stat.size
             });
           }

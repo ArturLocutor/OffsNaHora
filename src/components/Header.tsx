@@ -47,8 +47,8 @@ const Header = () => {
               <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-white font-bold text-sm sm:text-lg">Offs na Hora</h1>
-              <p className="text-blue-300 text-xs">Locutor Profissional</p>
+              <h1 className="text-white font-bold text-sm sm:text-lg">Offs Na Hora</h1>
+              <p className="text-blue-300 text-xs">Locução Profissional</p>
             </div>
           </div>
 

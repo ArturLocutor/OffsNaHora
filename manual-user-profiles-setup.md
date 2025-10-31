@@ -77,7 +77,7 @@ CREATE POLICY "Admins can manage all profiles" ON public.user_profiles
         )
     );
 
--- Inserir usuário admin principal (Locutor)
+-- Inserir usuário admin principal (Vinicius)
 INSERT INTO public.user_profiles (
     email, 
     username, 
@@ -85,8 +85,8 @@ INSERT INTO public.user_profiles (
     permissions, 
     is_main_admin
 ) VALUES (
-    'locutor@admin.com',
-    'Locutor',
+    'vinicius@admin.com',
+    'Vinicius',
     'admin',
     ARRAY['all'],
     TRUE
