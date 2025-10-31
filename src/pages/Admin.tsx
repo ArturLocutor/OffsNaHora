@@ -44,8 +44,8 @@ const Admin = () => {
       <header className="bg-gradient-to-r from-violet-900 via-purple-800 to-indigo-900 text-white shadow-2xl relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-indigo-500/10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center gap-3">
+          <div className="flex justify-between items-center py-6 gap-4 flex-col sm:flex-row">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               <div className="p-2 bg-gradient-to-br from-pink-500 to-violet-600 rounded-xl shadow-lg">
                 <Sparkles className="h-6 w-6 text-white" />
               </div>
@@ -56,11 +56,11 @@ const Admin = () => {
                 <p className="text-purple-200 text-sm">Gerencie seu conteúdo com estilo</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto flex-col sm:flex-row">
               <Button 
                 onClick={handleBackToSite} 
                 variant="outline" 
-                className="flex items-center gap-2 bg-white/10 border-white/30 text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
+                className="w-full sm:w-auto flex items-center gap-2 bg-white/10 border-white/30 text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
               >
                 <Home className="h-4 w-4" />
                 Voltar ao Site
@@ -68,7 +68,7 @@ const Admin = () => {
               <Button 
                 onClick={handleLogout} 
                 variant="outline" 
-                className="flex items-center gap-2 bg-gradient-to-r from-red-500/20 to-pink-500/20 border-red-300/30 text-white hover:bg-red-500/30 hover:border-red-300/50 transition-all duration-300 backdrop-blur-sm"
+                className="w-full sm:w-auto flex items-center gap-2 bg-gradient-to-r from-red-500/20 to-pink-500/20 border-red-300/30 text-white hover:bg-red-500/30 hover:border-red-300/50 transition-all duration-300 backdrop-blur-sm"
               >
                 <LogOut className="h-4 w-4" />
                 Sair
@@ -123,17 +123,17 @@ const Admin = () => {
           <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-1">
             <div className="bg-white rounded-t-lg">
               <Tabs defaultValue="audios" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 bg-gradient-to-r from-gray-50 to-gray-100 p-1 rounded-none border-b-0">
+                <TabsList className="grid w-full grid-cols-2 bg-gradient-to-r from-gray-50 to-gray-100 p-1 rounded-none border-b-0 sticky top-0 z-10">
                   <TabsTrigger 
                     value="audios" 
-                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+                    className="flex items-center justify-center gap-2 text-sm sm:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
                   >
                     <Music className="h-4 w-4" />
                     Áudios
                   </TabsTrigger>
                   <TabsTrigger 
                     value="services" 
-                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+                    className="flex items-center justify-center gap-2 text-sm sm:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
                   >
                     <LayoutList className="h-4 w-4" />
                     Serviços

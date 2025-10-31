@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Edit, Trash2, Loader2, LayoutList, GripVertical } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, LayoutList, GripVertical, ArrowUp, ArrowDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase, isSupabaseConfigured } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
@@ -284,6 +284,26 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
     setServices(ordered);
     await persistOrder(ordered);
   };
+
+  const moveUp = async (id: string) => {
+    const idx = services.findIndex(s => s.id === id);
+    if (idx <= 0) return;
+    const copy = [...services];
+    const [item] = copy.splice(idx, 1);
+    copy.splice(idx - 1, 0, item);
+    setServices(copy);
+    await persistOrder(copy);
+  };
+
+  const moveDown = async (id: string) => {
+    const idx = services.findIndex(s => s.id === id);
+    if (idx === -1 || idx >= services.length - 1) return;
+    const copy = [...services];
+    const [item] = copy.splice(idx, 1);
+    copy.splice(idx + 1, 0, item);
+    setServices(copy);
+    await persistOrder(copy);
+  };
  
    if (!isSupabaseConfigured) {
      return (
@@ -335,7 +355,7 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
                  Adicionar Serviço
                </Button>
              </DialogTrigger>
-             <DialogContent className="bg-white border-blue-200 sm:max-w-md">
+             <DialogContent className="bg-white border-blue-200 max-w-full sm:max-w-md rounded-none sm:rounded-lg">
                <DialogHeader>
                  <DialogTitle>{editingService ? 'Editar Serviço' : 'Adicionar Serviço'}</DialogTitle>
                </DialogHeader>
@@ -385,7 +405,17 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <GripVertical className="h-4 w-4 text-gray-400 cursor-grab" />
+                  <div className="hidden sm:block">
+                    <GripVertical className="h-4 w-4 text-gray-400 cursor-grab" />
+                  </div>
+                  <div className="flex sm:hidden items-center space-x-1">
+                    <Button variant="outline" size="sm" onClick={() => moveUp(service.id)} aria-label="Mover para cima">
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => moveDown(service.id)} aria-label="Mover para baixo">
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                  </div>
                   <Button variant="outline" size="sm" onClick={() => handleEditClick(service)} disabled={saving}>
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -397,9 +427,9 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
             ))
            )}
          </div>
-       </CardContent>
-     </Card>
-   );
- };
- 
- export default ServiceManagement;
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ServiceManagement;

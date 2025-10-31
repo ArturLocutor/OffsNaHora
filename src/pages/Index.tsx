@@ -14,7 +14,7 @@ import { useLocalSiteData } from "@/hooks/useLocalSiteData";
 import { getAudiosForPortfolio, getTotalAudiosCount } from "@/utils/audioSync";
 import studioBackground from "@/assets/studio-background.jpg";
 import soundWaves from "@/assets/sound-waves.jpg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import * as LucideIcons from 'lucide-react';
 // Mapeamento de nomes de ícones para componentes Lucide React
@@ -100,6 +100,24 @@ const Index = () => {
     { icon: Wrench, title: "Projetos", description: "Produção de áudio personalizada para projetos especiais.", color: "from-emerald-500 to-emerald-600" },
     { icon: Phone, title: "Espera Telefônica (URA)", description: "Mensagens profissionais para URA e atendimento automático.", color: "from-green-500 to-green-600" },
   ];
+
+  // Priorizar serviços com tags e embaralhar os demais
+  const prioritizedDynamicServices = useMemo(() => {
+    const list = (dynamicServices || []).slice();
+    const tagged = list
+      .filter((s: any) => s?.is_best_seller || s?.is_recommended)
+      .sort((a: any, b: any) => {
+        const ao = typeof a.order_position === 'number' ? a.order_position : 9999;
+        const bo = typeof b.order_position === 'number' ? b.order_position : 9999;
+        return ao - bo;
+      });
+    const others = list.filter((s: any) => !(s?.is_best_seller || s?.is_recommended));
+    for (let i = others.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [others[i], others[j]] = [others[j], others[i]];
+    }
+    return [...tagged, ...others];
+  }, [dynamicServices]);
 
   if (loading) {
     return (
@@ -276,11 +294,12 @@ const Index = () => {
               </div>
               <div className="flex justify-center">
                 <div className="relative">
-                  <img 
-                    src={configs['profile_image'] || "https://i.imgur.com/5H6o9S0.jpeg"} 
-                    alt="Offs Na Hora - Locução Profissional" 
-                    className="rounded-2xl shadow-2xl max-w-sm w-full h-auto border-4 border-white/20 transform hover:scale-105 transition-all duration-300"
-                  />
+                    <img
+                      loading="lazy"
+                      src={configs['profile_image'] || "https://i.imgur.com/5H6o9S0.jpeg"} 
+                      alt="Offs Na Hora - Locução Profissional" 
+                      className="rounded-2xl shadow-2xl max-w-sm w-full h-auto border-4 border-white/20 transform hover:scale-105 transition-all duration-300"
+                    />
                   <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
                     <Star className="w-4 h-4 mr-1" />
                     Profissional
@@ -304,9 +323,72 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {dynamicServices.map((service) => {
-              const serviceColorClass = getRandomServiceGradient();
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-7xl mx-auto place-items-center">
+            {prioritizedDynamicServices.map((service: any) => {
+              const getGradientForTitle = (title: string) => {
+                const t = (title || '').toLowerCase();
+                const map: { keys: string[]; gradient: string }[] = [
+                  { keys: ['rádio','emissora','tv'], gradient: 'from-indigo-500 to-blue-600' },
+                  { keys: ['social','instagram','rede','conteúdo'], gradient: 'from-pink-500 to-rose-600' },
+                  { keys: ['documentário','cinema','vídeo'], gradient: 'from-purple-500 to-violet-600' },
+                  { keys: ['campanha','promoções','marketing','projeto'], gradient: 'from-emerald-500 to-teal-600' },
+                  { keys: ['notícia','jornal'], gradient: 'from-orange-500 to-red-600' },
+                  { keys: ['podcast'], gradient: 'from-cyan-500 to-sky-600' },
+                  { keys: ['corporativa','empresa','institucional'], gradient: 'from-blue-500 to-indigo-600' },
+                  { keys: ['espera telefônica','ura'], gradient: 'from-yellow-400 to-amber-500' },
+                ];
+                for (const m of map) { if (m.keys.some(k => t.includes(k))) return m.gradient; }
+                const SERVICE_GRADIENTS = [
+                  'from-blue-500 to-blue-600','from-green-500 to-green-600','from-purple-500 to-purple-600',
+                  'from-orange-500 to-orange-600','from-red-500 to-red-600','from-yellow-400 to-orange-500',
+                  'from-teal-500 to-teal-600','from-cyan-500 to-cyan-600','from-indigo-500 to-indigo-600',
+                  'from-violet-500 to-violet-600','from-pink-500 to-rose-600','from-slate-500 to-slate-600','from-emerald-500 to-emerald-600'];
+                let hash = 0; for (let i = 0; i < t.length; i++) hash = (hash * 31 + t.charCodeAt(i)) >>> 0;
+                return SERVICE_GRADIENTS[hash % SERVICE_GRADIENTS.length];
+              };
+              const getThemeBorderAndGlow = (g: string) => {
+                const s = g || '';
+                if (s.includes('emerald') || s.includes('teal') || s.includes('green')) {
+                  return { border: 'border-emerald-400/50 hover:border-emerald-300/70', glow: 'shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/50' };
+                }
+                if (s.includes('indigo') || s.includes('blue') || s.includes('cyan')) {
+                  return { border: 'border-blue-400/50 hover:border-blue-300/70', glow: 'shadow-lg shadow-blue-500/25 hover:shadow-blue-400/50' };
+                }
+                if (s.includes('violet') || s.includes('purple')) {
+                  return { border: 'border-violet-400/50 hover:border-violet-300/70', glow: 'shadow-lg shadow-violet-500/25 hover:shadow-violet-400/50' };
+                }
+                if (s.includes('pink') || s.includes('rose')) {
+                  return { border: 'border-pink-400/50 hover:border-pink-300/70', glow: 'shadow-lg shadow-pink-500/25 hover:shadow-pink-400/50' };
+                }
+                if (s.includes('orange') || s.includes('amber') || s.includes('red') || s.includes('yellow')) {
+                  return { border: 'border-orange-400/50 hover:border-orange-300/70', glow: 'shadow-lg shadow-orange-500/25 hover:shadow-orange-400/50' };
+                }
+                return { border: 'border-slate-400/50 hover:border-slate-300/70', glow: 'shadow-lg shadow-slate-500/25 hover:shadow-slate-400/50' };
+              };
+              const serviceColorClass = getGradientForTitle(service.title || '');
+              const theme = getThemeBorderAndGlow(serviceColorClass);
+              const themeOverlayAndText = (() => {
+                const g = serviceColorClass || '';
+                if (g.includes('emerald') || g.includes('teal') || g.includes('green')) {
+                  return { bg: 'from-emerald-500/10 to-teal-600/10', text: 'text-emerald-200' };
+                }
+                if (g.includes('indigo') || g.includes('blue') || g.includes('cyan')) {
+                  return { bg: 'from-blue-500/10 to-indigo-600/10', text: 'text-blue-200' };
+                }
+                if (g.includes('violet') || g.includes('purple')) {
+                  return { bg: 'from-violet-500/10 to-purple-600/10', text: 'text-violet-200' };
+                }
+                if (g.includes('pink') || g.includes('rose')) {
+                  return { bg: 'from-pink-500/10 to-rose-600/10', text: 'text-pink-200' };
+                }
+                if (g.includes('orange') || g.includes('amber') || g.includes('red') || g.includes('yellow')) {
+                  return { bg: 'from-orange-500/10 to-red-600/10', text: 'text-orange-200' };
+                }
+                return { bg: 'from-slate-500/10 to-slate-700/10', text: 'text-slate-200' };
+              })();
+              const titleLen = (service.title || '').length;
+              const badgeSizeClass = titleLen > 28 ? 'text-[10px]' : titleLen > 18 ? 'text-[11px]' : 'text-[12px]';
+              const badgePadXClass = titleLen > 28 ? 'px-1.5' : titleLen > 18 ? 'px-2' : 'px-2.5';
               return (
                 <HoverCard key={service.id} openDelay={150} closeDelay={100}>
                   <HoverCardTrigger asChild>
@@ -316,20 +398,43 @@ const Index = () => {
                         document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                       }}
                       className={cn(
-                        "bg-slate-900/80 border-slate-800 shadow-xl hover:border-slate-700 transition-all duration-300", 
-                        "hover:shadow-lg hover:shadow-blue-500/10"
+                        "relative bg-transparent",
+                        "border", theme.border,
+                        "transition-all duration-200",
+                        "cursor-pointer group overflow-visible"
                       )}
                     >
-                      <CardHeader>
+                      {/* Fundo temático sutil alinhado aos cards de locutores */}
+                      <div className={cn("absolute inset-0 bg-gradient-to-br", themeOverlayAndText.bg)} />
+                      {(service?.is_best_seller || service?.is_recommended) && (
+                        <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 md:-top-4 md:-right-4 z-20 flex gap-2 pointer-events-none">
+                          {service?.is_best_seller && (
+                            <div className="relative">
+                              <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-yellow-300/20 rounded-md" />
+                              <div className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 font-bold rounded-md shadow ring-1 ring-white/40 animate-float-slow whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                                Mais Vendido
+                              </div>
+                            </div>
+                          )}
+                          {service?.is_recommended && (
+                            <div className="relative">
+                              <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-indigo-300/20 rounded-md" />
+                              <div className={`bg-gradient-to-r from-indigo-400 to-violet-500 text-white font-bold rounded-md shadow ring-1 ring-white/40 animate-float-slow whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                                Recomendado
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      <CardHeader className="text-center p-2 sm:p-3 relative z-10 flex items-center justify-center min-h-[64px] sm:min-h-[80px] md:min-h-[96px]">
                         <CardTitle className={cn(
-                          "text-xl font-bold mt-3",
-                          "bg-gradient-to-br",
-                          serviceColorClass,
-                          "bg-clip-text text-transparent"
+                          "text-base sm:text-lg md:text-xl font-semibold",
+                          themeOverlayAndText.text
                         )}>
                           {service.title}
                         </CardTitle>
                       </CardHeader>
+                      
                     </Card>
                   </HoverCardTrigger>
                 </HoverCard>

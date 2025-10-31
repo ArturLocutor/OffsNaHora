@@ -1,187 +1,124 @@
-# Offs na Hora – Portfólio do Locutor Artur Sutto
+# Offs Na Hora — Locução Profissional
 
-Um site profissional, rápido e completo para apresentar seu trabalho de locução, com gerenciamento simples de áudios e conteúdos.
-
-## Índice
-
-- Visão Geral
-- Funcionalidades do Site
-- Player de Áudio
-- Formulário de Orçamento (WhatsApp)
-- Painel Administrativo
-- Gestão de Áudios
-- Gestão de Serviços
-- Conteúdos, Configurações, Depoimentos e Estatísticas
-- Como Adicionar Áudios
-- Estrutura do Projeto
-- Execução (Dev e Produção)
-- Variáveis de Ambiente
-- SEO e PWA
-- Segurança
-- Tecnologias
-- Suporte
+Site oficial com portfólio de áudios, serviços de locução e painel administrativo para gestão local de conteúdos. Construído com React + Vite, TailwindCSS e componentes UI.
 
 ## Visão Geral
+- Frontend em `React` com `Vite` e `TailwindCSS`.
+- Servidor integrado opcional (`Express + Helmet + Rate-Limit`) para API de áudios e estáticos.
+- Painel admin protegido por rota (uso apenas em desenvolvimento/demonstração).
+- SEO básico configurado e headers de segurança prontos para produção (via `vercel.json`).
 
-- 100% estático no modo padrão, sem necessidade de backend.
-- Admin opcional com rotas sensíveis protegidas e bloqueadas no SEO.
-- Conteúdos dinâmicos carregados localmente e/ou via Supabase (opcional).
-- Design moderno, responsivo e otimizado para performance.
+## Páginas e Rotas
+- `/` — Página principal (Home): portfólio, serviços, contato, players.
+- `/login` — Login administrativo (somente dev/demonstração).
+- `/admin` — Painel administrativo (somente dev/demonstração).
+- `/dev` — Painel de debug principal admin (somente dev/demonstração).
+- `*` — Página 404 customizada.
 
-## Funcionalidades do Site
+Proteções de rota:
+- `ProtectedRoute` protege `/admin`.
+- `MainAdminRoute` protege `/dev` (apenas usuário principal).
+- `VITE_ENABLE_ADMIN` controla se rotas admin/dev/login ficam visíveis (produção recomenda `false`).
 
-- Header com navegação para seções: Portfólio, Sobre, Serviços e Contato.
-- Portfólio com reprodutores de áudio e destaques.
-- Seção “Sobre” com texto editável.
-- Lista de serviços com destaques “Mais Vendido” e “Recomendado”.
-- Depoimentos de clientes.
-- Estatísticas com números e cores.
-- Formulário de contato que envia mensagem direta no WhatsApp.
+Robôs/Indexação:
+- `useNoIndex` em páginas sensíveis (`Login`, `Admin`).
+- `public/robots.txt` bloqueia `/admin` e `/login`.
 
-## Player de Áudio
-
-- Play/Pause e reinício automático ao finalizar.
-- Barra de progresso clicável (busca pela posição).
-- Controle de volume e Mute.
-- Suporte a fonte local (`public/audios`) e, quando configurado, URL do Supabase.
-- Registro de métricas de reprodução (para análise futura).
-- Estados de erro com feedback visual e fallback quando não há áudio.
-
-## Formulário de Orçamento (WhatsApp)
-
-- Campos: Nome, Email, Serviço, Duração, Descrição.
-- Integração com a lista de serviços (carregada dinamicamente).
-- Integração com seleção de locutor (quando disponível no contexto).
-- Envia mensagem formatada diretamente para `+55 17 98192-5660` via `wa.me`.
-- Valida dados obrigatórios, dá feedback de envio e limpa formulário.
-
-## Painel Administrativo
-
-- Acesso em `/admin` (bloqueado para indexação por SEO).
-- Aba “Áudios”: gerenciamento e organização de portfólio.
-- Aba “Serviços”: criação, edição, exclusão e ordenação.
-- Indicadores rápidos: quantidade de áudios e status do sistema.
-- Botões de “Voltar ao Site” e Logout.
-
-Observação: Em produção, recomenda-se autenticação server-side (JWT/Supabase/OAuth). O projeto já inclui cabeçalhos de segurança e proteção por token em rotas mutáveis do servidor integrado.
-
-## Gestão de Áudios
-
-- Carregamento automático dos arquivos em `public/audios`.
-- Agrupamento por locutor com estatísticas rápidas por pasta.
-- Busca por título/descrição e filtro por locutor.
-- Player de pré-visualização dentro do Admin.
-- Tutorial integrado explicando a organização por pastas.
-
-Remoção e adição no modo estático:
-- Para adicionar: coloque o arquivo `.mp3`/`.wav`/`.m4a` nas pastas de locutor em `public/audios`.
-- Para remover: exclua o arquivo correspondente.
-
-Servidor integrado (opcional):
-- Há uma rota protegida para upload (`POST /api/upload-audio`) que usa o header `x-admin-token`.
-- Configure `ADMIN_TOKEN` e utilize ferramentas ou scripts para enviar arquivos com autenticação.
-
-## Gestão de Serviços
-
-- Criação e edição de serviços com título.
-- Marcação de “Mais Vendido” e “Recomendado”.
-- Ordenação por drag-and-drop com persistência.
-- Exclusão de serviços.
-- Integração com Supabase (necessário para CRUD):
-  - Variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` no `.env.local`.
-  - Tabela `services` (tipos já definidos em `src/integrations/supabase/types.ts`).
-  - Script opcional para tags: `supabase/sql/add-service-tags.sql`.
-
-Sem Supabase configurado:
-- O Admin exibirá um aviso. No site público, os serviços padrão são carregados de `src/data/siteData.ts`.
-
-## Conteúdos, Configurações, Depoimentos e Estatísticas
-
-Modo local (sem Supabase):
-- Editáveis via `src/data/siteData.ts`.
-- Textos (hero, sobre, títulos de seção, CTA).
-- Configurações: email, número do WhatsApp, Instagram, link do Google Drive, imagem de perfil.
-- Depoimentos: nome, citação e ordem.
-- Estatísticas: título, valor, sufixo (ex: “+ de”), descrição e cor.
-
-Quando integrado ao Supabase:
-- Há componentes para edição via Admin (ex.: `TextManagement.tsx`, `SiteManagement.tsx`).
-- As abas e edições dependem das variáveis e tabelas configuradas.
-
-## Como Adicionar Áudios
-
-- Organização recomendada:
-  - `public/audios/Locutor Principal/arquivo.mp3`
-  - `public/audios/João Silva/arquivo.mp3`
-- Os nomes de pastas viram “locutores” e são usados para o agrupamento, filtros e estatísticas.
-- O sistema reconhece `.mp3`, `.wav`, `.m4a`.
-
-## Estrutura do Projeto
-
-```
-public/
-  audios/
-  favicon.ico
-  robots.txt
-  sitemap.xml
-  manifest.webmanifest
-src/
-  components/
-  pages/
-  hooks/
-  utils/
-  data/
-  integrations/
-```
-
-## Execução
-
-Desenvolvimento:
-
-```
+## Como Rodar
+1) Instalar dependências
+```bash
 npm install
-npm run dev
-# http://localhost:8080
+# ou
+pnpm install
 ```
 
-Produção:
+2) Iniciar o servidor integrado (recomendado em dev)
+```bash
+node server-integrated.cjs
+# Frontend/Preview: http://localhost:8080/
+# API: http://localhost:8080/api
+```
 
+Alternativas de desenvolvimento
+```bash
+npm run dev              # Vite dev (frontend)
+npm run dev -- --port 3001
+npm run dev:integrado    # Atalho para servidor integrado
 ```
-npm run build
-npm run preview
+
+## Painel Administrativo (dev/demonstração)
+- Controle via `VITE_ENABLE_ADMIN`:
+  - `true` (padrão): rotas admin/dev/login habilitadas.
+  - `false`: rotas admin/dev/login ficam inacessíveis e redirecionam para `/`.
+- Login local básico (definido em `src/contexts/AuthContext.tsx`) apenas para demonstração.
+- Sessão persiste em `localStorage`.
+
+Importante: Para produção real, migre o login para backend (JWT/token) e use HTTPS.
+
+## Servidor Integrado (API de Áudios)
+O servidor integrado expõe endpoints para gerenciar áudios locais (pasta `public/audios/`).
+
+Endpoints principais:
+- `GET /api/audio-files` — Lista arquivos disponíveis.
+- `POST /api/upload-audio` — Upload de áudio (protegido por `x-admin-token`).
+- `DELETE /api/audio-files/:filename` — Remove áudio (protegido por `x-admin-token`).
+- `GET /audios/:filename` — Serve o arquivo de áudio.
+
+Proteção com token admin:
+- Defina `ADMIN_TOKEN` no ambiente do servidor.
+- Envie o header `x-admin-token: <seu_token>` nas rotas protegidas.
+
+Exemplo de upload via cURL:
+```bash
+curl -X POST http://localhost:8080/api/upload-audio \
+  -H "x-admin-token: MEU_TOKEN_SEGURO" \
+  -F "audio=@/caminho/para/arquivo.mp3"
 ```
+
+## Gestão de Áudios no Frontend
+- `src/utils/publicAudioManager.ts` gerencia a descoberta de áudios em `public/audios` e fallback via `audios.json`.
+- `src/components/PublicAudioPlayer.tsx` reproduz arquivos locais com UI simplificada.
+- `src/components/admin/AudioManagement.tsx` lista, filtra, e reproduz áudios locais (sem upload UI por padrão).
+
+## Configuração de Produção (Vercel)
+- `vercel.json` inclui headers de segurança:
+  - `Strict-Transport-Security`, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`.
+  - `Content-Security-Policy` estrita (ajuste domínios de `connect-src` conforme APIs externas necessárias).
+- Rewrites mapeiam estáticos e SPA para `index.html`.
+
+## SEO e Metadados
+- `index.html` inclui metatags de descrição, Open Graph e Twitter.
+- `public/sitemap.xml` e `public/robots.txt` prontos.
+
+## Performance
+- Code-splitting aplicado para `Admin`, `Dev`, `Login`, `NotFound` (`React.lazy`/`Suspense`).
+- Imagem de perfil em `Index.tsx` com `loading="lazy"` (quando rota for utilizada).
+- Recomendado: converter fundos (`src/assets/studio-background.jpg`, `src/assets/sound-waves.jpg`) para `WebP` otimizados em produção.
 
 ## Variáveis de Ambiente
+- `VITE_ENABLE_ADMIN` — controla visibilidade de rotas admin/dev/login (use `false` em produção se não houver backend).
+- `ADMIN_TOKEN` — token para proteger rotas de upload/delete no servidor integrado.
+- (Opcional) Supabase: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` — apenas se integrar com banco real.
 
-- `VITE_ENABLE_ADMIN`: habilita/desabilita o Admin/Login no build público (`true/false`).
-- `ADMIN_TOKEN`: token de administrador para rotas protegidas no servidor integrado.
-- `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`: habilitam CRUD de serviços e textos via Supabase.
+## Build e Deploy
+```bash
+npm run build
+# Saída em ./dist
+```
+Hospede os arquivos de `dist/`. Se usar servidor estático, garanta reescritas de SPA e sirva `/audios/`.
 
-## SEO e PWA
+## Segurança — Recomendações
+- Não use o login frontend puro em produção.
+- Use HTTPS, tokens/JWT e sanitize inputs.
+- Mantenha `ADMIN_TOKEN` apenas no servidor.
+- Confirme CSP na plataforma de deploy.
 
-- Meta tags otimizadas em `index.html` (`title`, `description`, `keywords`, `robots`, `canonical`).
-- Open Graph e Twitter Cards com imagem, título e descrição.
-- JSON-LD: `ProfessionalService` e `WebSite` para rich results.
-- `robots.txt` atualizado (bloqueia `/admin` e `/login`) e `sitemap.xml` criado.
-- PWA básico: `manifest.webmanifest`, `theme-color` e `apple-touch-icon`.
-- Melhoria de acessibilidade: `format-detection=telephone=no`.
+## Problemas Comuns
+- `Browserslist` desatualizado: execute `npx update-browserslist-db@latest`.
+- Erros de porta em dev: feche servidores duplicados antes de iniciar outro.
 
-## Segurança
+## Contato
+- WhatsApp: `https://wa.me/5517981925660`
 
-- Cabeçalhos de segurança em `vercel.json` (HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, CSP).
-- Rotas mutáveis protegidas no servidor integrado via `x-admin-token`.
-- Páginas internas (`/admin`, `/login`) com `noindex` e bloqueadas em `robots.txt`.
-- Recomendação de autenticação server-side para produção.
-
-## Tecnologias
-
-- React 18, TypeScript, Vite.
-- Tailwind CSS, Shadcn UI, Lucide React.
-- Sonner (notificações).
-- Supabase (opcional, para gestão via banco).
-
-## Suporte
-
-- Email: `artursutto@gmail.com`
-- WhatsApp: `+55 17 98192-5660`
-- Instagram: `@artursutto`
+---
+Projeto destinado a desenvolvimento/demonstração. Para produção, migre autenticação para backend e aperfeiçoe a segurança conforme guia em `SECURITY_GUIDE.md`.

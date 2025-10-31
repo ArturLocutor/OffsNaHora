@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Phone, Instagram, Mail, Mic, Radio, Building, Users, Wrench, ArrowDown, Star, Award, Music, Volume2, Headphones, Zap, Sparkles, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +20,7 @@ import { useLocalSiteData } from "@/hooks/useLocalSiteData";
 import { useSpeaker } from "@/contexts/SpeakerContext";
 
 import { recordEvent } from "../utils/metrics";
+import { cn } from "@/lib/utils";
 
 interface Audio {
   id: string;
@@ -62,51 +63,9 @@ const Home = () => {
   const [displayedAudios, setDisplayedAudios] = useState<Audio[]>([]);
   const [displayedCount, setDisplayedCount] = useState(3); // Mostrar apenas 3 inicialmente
   const [totalAudiosCount, setTotalAudiosCount] = useState(0);
-  const [randomizedServices, setRandomizedServices] = useState<any[]>([]);
+  // Serviços serão exibidos na ordem vinda do painel (order_position)
 
-  // Função para randomizar as tags e ordem dos serviços
-  const randomizeServicesAndTags = (servicesList: any[]) => {
-    if (!servicesList || servicesList.length === 0) return [];
-    
-    // Criar uma cópia dos serviços
-    const shuffledServices = [...servicesList];
-    
-    // Embaralhar a ordem dos serviços
-    for (let i = shuffledServices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledServices[i], shuffledServices[j]] = [shuffledServices[j], shuffledServices[i]];
-    }
-    
-    // Selecionar aleatoriamente quais serviços terão tags
-    const taggedServices = new Set();
-    const availableIndices = shuffledServices.map((_, index) => index);
-    
-    // Selecionar 1 serviço para "Mais Vendido"
-    if (availableIndices.length > 0) {
-      const bestSellerIndex = availableIndices.splice(Math.floor(Math.random() * availableIndices.length), 1)[0];
-      taggedServices.add(bestSellerIndex);
-      shuffledServices[bestSellerIndex] = {
-        ...shuffledServices[bestSellerIndex],
-        randomTag: 'Mais vendido'
-      };
-    }
-    
-    // Selecionar 1 serviço para "Recomendado"
-    if (availableIndices.length > 0) {
-      const recommendedIndex = availableIndices.splice(Math.floor(Math.random() * availableIndices.length), 1)[0];
-      taggedServices.add(recommendedIndex);
-      shuffledServices[recommendedIndex] = {
-        ...shuffledServices[recommendedIndex],
-        randomTag: 'Recomendado'
-      };
-    }
-    
-    // Ordenar para que serviços com tags apareçam primeiro
-    const servicesWithTags = shuffledServices.filter((_, index) => taggedServices.has(index));
-    const servicesWithoutTags = shuffledServices.filter((_, index) => !taggedServices.has(index));
-    
-    return [...servicesWithTags, ...servicesWithoutTags];
-  };
+  // Removida a randomização: usaremos os dados reais do painel
   
   // Dados padrão dos clientes
   const defaultClients: Client[] = [
@@ -180,24 +139,22 @@ const Home = () => {
     setDisplayedAudios(audios.slice(0, displayedCount));
   }, [audios, displayedCount]);
 
-  // Efeito para randomizar serviços quando eles são carregados
-  useEffect(() => {
-    if (services && services.length > 0) {
-      const randomized = randomizeServicesAndTags(services);
-      setRandomizedServices(randomized);
+  // Priorizar serviços com tags (Mais Vendido/Recomendado) e embaralhar os demais
+  const prioritizedServices = useMemo(() => {
+    const list = (services || []).slice();
+    const tagged = list
+      .filter((s: any) => s?.is_best_seller || s?.is_recommended)
+      .sort((a: any, b: any) => {
+        const ao = typeof a.order_position === 'number' ? a.order_position : 9999;
+        const bo = typeof b.order_position === 'number' ? b.order_position : 9999;
+        return ao - bo;
+      });
+    const others = list.filter((s: any) => !(s?.is_best_seller || s?.is_recommended));
+    for (let i = others.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [others[i], others[j]] = [others[j], others[i]];
     }
-  }, [services]);
-
-  // Efeito para re-randomizar a cada 30 segundos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (services && services.length > 0) {
-        const randomized = randomizeServicesAndTags(services);
-        setRandomizedServices(randomized);
-      }
-    }, 30000); // 30 segundos
-
-    return () => clearInterval(interval);
+    return [...tagged, ...others];
   }, [services]);
 
   // Sistema de cores harmoniosas e equilibradas para cada locutor (baseado no hash do nome)
@@ -984,19 +941,84 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Serviços</h2>
-            <p className="text-base sm:text-lg md:text-xl text-blue-200">Categorias oferecidas em locução e produção</p>
+            <p className="text-base sm:text-lg md:text-xl text-white/80">Categorias oferecidas em locução e produção</p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {randomizedServices.map((service) => {
-              const serviceColorClass = getRandomServiceGradient();
-              const badge = service.randomTag; // Usar a tag aleatória em vez da order_position
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 auto-rows-fr">
+            {prioritizedServices.map((service: any) => {
+              const getGradientForTitle = (title: string) => {
+                const t = (title || '').toLowerCase();
+                const map: { keys: string[]; gradient: string }[] = [
+                  { keys: ['rádio','emissora','tv'], gradient: 'from-indigo-500 to-blue-600' },
+                  { keys: ['social','instagram','rede','conteúdo'], gradient: 'from-pink-500 to-rose-600' },
+                  { keys: ['documentário','cinema','vídeo'], gradient: 'from-purple-500 to-violet-600' },
+                  { keys: ['campanha','promoções','marketing','projeto'], gradient: 'from-emerald-500 to-teal-600' },
+                  { keys: ['notícia','jornal'], gradient: 'from-orange-500 to-red-600' },
+                  { keys: ['podcast'], gradient: 'from-cyan-500 to-sky-600' },
+                  { keys: ['corporativa','empresa','institucional'], gradient: 'from-blue-500 to-indigo-600' },
+                  { keys: ['espera telefônica','ura'], gradient: 'from-yellow-400 to-amber-500' },
+                ];
+                for (const m of map) {
+                  if (m.keys.some(k => t.includes(k))) return m.gradient;
+                }
+                const SERVICE_GRADIENTS = [
+                  'from-blue-500 to-blue-600','from-green-500 to-green-600','from-purple-500 to-purple-600',
+                  'from-orange-500 to-orange-600','from-red-500 to-red-600','from-yellow-400 to-orange-500',
+                  'from-teal-500 to-teal-600','from-cyan-500 to-cyan-600','from-indigo-500 to-indigo-600',
+                  'from-violet-500 to-violet-600','from-pink-500 to-rose-600','from-slate-500 to-slate-600','from-emerald-500 to-emerald-600'];
+                let hash = 0; for (let i = 0; i < t.length; i++) hash = (hash * 31 + t.charCodeAt(i)) >>> 0;
+                return SERVICE_GRADIENTS[hash % SERVICE_GRADIENTS.length];
+              };
+              const serviceColorClass = getGradientForTitle(service.title || '');
+              const theme = (() => {
+                const g = serviceColorClass || '';
+                if (g.includes('emerald') || g.includes('teal') || g.includes('green')) {
+                  return { border: 'border-emerald-400/50 hover:border-emerald-300/70', glow: 'shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/50' };
+                }
+                if (g.includes('indigo') || g.includes('blue') || g.includes('cyan')) {
+                  return { border: 'border-blue-400/50 hover:border-blue-300/70', glow: 'shadow-lg shadow-blue-500/25 hover:shadow-blue-400/50' };
+                }
+                if (g.includes('violet') || g.includes('purple')) {
+                  return { border: 'border-violet-400/50 hover:border-violet-300/70', glow: 'shadow-lg shadow-violet-500/25 hover:shadow-violet-400/50' };
+                }
+                if (g.includes('pink') || g.includes('rose')) {
+                  return { border: 'border-pink-400/50 hover:border-pink-300/70', glow: 'shadow-lg shadow-pink-500/25 hover:shadow-pink-400/50' };
+                }
+                if (g.includes('orange') || g.includes('amber') || g.includes('red') || g.includes('yellow')) {
+                  return { border: 'border-orange-400/50 hover:border-orange-300/70', glow: 'shadow-lg shadow-orange-500/25 hover:shadow-orange-400/50' };
+                }
+                return { border: 'border-slate-400/50 hover:border-slate-300/70', glow: 'shadow-lg shadow-slate-500/25 hover:shadow-slate-400/50' };
+              })();
+              const themeOverlayAndText = (() => {
+                const g = serviceColorClass || '';
+                if (g.includes('emerald') || g.includes('teal') || g.includes('green')) {
+                  return { bg: 'from-emerald-500/10 to-teal-600/10', text: 'text-emerald-200' };
+                }
+                if (g.includes('indigo') || g.includes('blue') || g.includes('cyan')) {
+                  return { bg: 'from-blue-500/10 to-indigo-600/10', text: 'text-blue-200' };
+                }
+                if (g.includes('violet') || g.includes('purple')) {
+                  return { bg: 'from-violet-500/10 to-purple-600/10', text: 'text-violet-200' };
+                }
+                if (g.includes('pink') || g.includes('rose')) {
+                  return { bg: 'from-pink-500/10 to-rose-600/10', text: 'text-pink-200' };
+                }
+                if (g.includes('orange') || g.includes('amber') || g.includes('red') || g.includes('yellow')) {
+                  return { bg: 'from-orange-500/10 to-red-600/10', text: 'text-orange-200' };
+                }
+                return { bg: 'from-slate-500/10 to-slate-700/10', text: 'text-slate-200' };
+              })();
+              const isBest = !!service.is_best_seller;
+              const isRec = !!service.is_recommended;
+              const titleLen = (service.title || '').length;
+              const badgeSizeClass = titleLen > 28 ? 'text-[10px]' : titleLen > 18 ? 'text-[11px]' : 'text-[12px]';
+              const badgePadXClass = titleLen > 28 ? 'px-1.5' : titleLen > 18 ? 'px-2' : 'px-2.5';
               return (
                 <HoverCard key={service.id} openDelay={150} closeDelay={100}>
                   <HoverCardTrigger asChild>
                     <Card
                       onClick={() => {
-                        recordEvent('service_card_click', { title: service.title, badge: badge || undefined });
+                        recordEvent('service_card_click', { title: service.title });
                         window.dispatchEvent(new CustomEvent('selectService', { detail: service.title }));
                         document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                       }}
@@ -1005,24 +1027,51 @@ const Home = () => {
                       }}
                       role="button"
                       tabIndex={0}
-                      aria-label={`Selecionar serviço ${service.title}${badge ? ' - ' + badge : ''}`}
-                      className="relative bg-slate-800/50 border-slate-700 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover-float pressable"
+                      aria-label={`Selecionar serviço ${service.title}`}
+                      className={cn(
+                        "relative bg-transparent",
+                        "border", theme.border,
+                        "transition-all duration-200",
+                        "cursor-pointer group overflow-visible",
+                        "flex items-center justify-center",
+                        "min-h-[64px] sm:min-h-[80px] md:min-h-[96px]"
+                      )}
                     >
-                      {badge && (
-                        <div className={`absolute -top-2 -right-2 ${badge === 'Mais vendido' ? 'bg-yellow-400 text-slate-900' : 'bg-indigo-400 text-white'} text-[11px] font-bold px-2 py-1 rounded-md shadow`}>
-                          {badge}
+                      {/* Fundo temático sutil alinhado aos cards de locutores */}
+                      <div className={cn("absolute inset-0 bg-gradient-to-br", themeOverlayAndText.bg)} />
+                      {(isBest || isRec) && (
+                        <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 md:-top-4 md:-right-4 z-20 flex gap-2 pointer-events-none">
+                          {isBest && (
+                            <div className="relative">
+                              <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-yellow-300/20 rounded-md" />
+                              <div className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 font-bold rounded-md shadow ring-1 ring-white/40 animate-float-slow whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                                Mais Vendido
+                              </div>
+                            </div>
+                          )}
+                          {isRec && (
+                            <div className="relative">
+                              <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-indigo-300/20 rounded-md" />
+                              <div className={`bg-gradient-to-r from-indigo-400 to-violet-500 text-white font-bold rounded-md shadow ring-1 ring-white/40 animate-float-slow whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                                Recomendado
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
-                      <CardHeader className="text-center">
-                        <CardTitle className={`text-xl font-bold bg-gradient-to-br ${serviceColorClass} bg-clip-text text-transparent`}>
+                      <CardHeader className="text-center p-2 sm:p-3 relative z-10">
+                        <CardTitle className={cn(
+                          "text-base sm:text-lg md:text-xl font-semibold",
+                          "text-white"
+                        )}>
                           {service.title}
                         </CardTitle>
-                       </CardHeader>
-                     </Card>
-                   </HoverCardTrigger>
-                 </HoverCard>
-               );
-             })}
+                      </CardHeader>
+                    </Card>
+                  </HoverCardTrigger>
+                </HoverCard>
+              );
+            })}
           </div>
         </div>
       </section>
