@@ -40,15 +40,18 @@ const Header = () => {
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <div 
-            className="flex items-center space-x-2 sm:space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+            className="flex items-center space-x-2 sm:space-x-3 cursor-pointer hover:opacity-90 transition-opacity"
             onClick={scrollToTop}
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border border-blue-400/30 flex items-center justify-center">
-              <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-            </div>
-            <div>
+            <img
+              src="/logo.png"
+              alt="Offs Na Hora — Locução Profissional"
+              loading="lazy"
+              className="h-8 sm:h-10 w-auto drop-shadow-md"
+            />
+            <div className="hidden sm:block">
               <h1 className="text-white font-bold text-sm sm:text-lg">Offs Na Hora</h1>
-              <p className="text-blue-300 text-xs">Locução Profissional</p>
+              <p className="text-white/80 text-xs">Locução Profissional</p>
             </div>
           </div>
 

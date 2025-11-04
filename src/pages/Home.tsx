@@ -12,14 +12,15 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import ScrollToTop from "@/components/ScrollToTop";
 import AudioWaveIcon from "@/components/AudioWaveIcon";
-import studioBackground from "@/assets/studio-background.jpg";
-import soundWaves from "@/assets/sound-waves.jpg";
+// Removido uso de imagens de fundo no Hero
 import { getAvailableAudioFiles, getAudioUrl, formatAudioTitle, onSiteAudiosUpdated, groupAudiosBySpeaker } from "@/utils/publicAudioManager";
 import { extractDriveId } from "@/utils/driveUtils";
 import { useLocalSiteData } from "@/hooks/useLocalSiteData";
 import { useSpeaker } from "@/contexts/SpeakerContext";
 
 import { recordEvent } from "../utils/metrics";
+import studioBackground from "@/assets/studio-background.jpg";
+import soundWaves from "@/assets/sound-waves.jpg";
 import { cn } from "@/lib/utils";
 
 interface Audio {
@@ -382,29 +383,43 @@ const Home = () => {
       <ScrollToTop />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16" style={{backgroundImage: `url(${studioBackground})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
-        <div className="absolute inset-0 bg-gradient-move opacity-90" />
-        <div className="absolute inset-0" style={{backgroundImage: `url(${soundWaves})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.3}} />
+      <section className="relative overflow-hidden pt-16">
+        {/* Imagem de fundo com blur suave e escala para cobrir bordas do blur */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${studioBackground})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(3px)',
+            transform: 'scale(1.04)',
+            opacity: 0.28,
+          }}
+        />
+        {/* Gradiente animado suave para harmonizar com a paleta */}
+        <div className="absolute inset-0 bg-gradient-move opacity-55" />
+        {/* Overlay de linhas/ondas mais visível para reduzir a imagem de fundo */}
+        <div className="absolute inset-0" style={{backgroundImage: `url(${soundWaves})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.22}} />
         <div className="container mx-auto px-4 py-16 sm:py-24 lg:py-32 relative">
           <div className="text-center max-w-4xl mx-auto">
             <div className="mb-6 sm:mb-8 relative">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 mx-auto flex items-center justify-center mb-4 sm:mb-6">
-                <AudioWaveIcon size="lg" className="animate-pulse" />
+              <div className="mx-auto flex items-center justify-center mb-4 sm:mb-6">
+                <img
+                  src="/logo.png"
+                  alt="Logo Offs Na Hora"
+                  loading="lazy"
+                  className="h-16 sm:h-20 md:h-24 w-auto drop-shadow-xl"
+                />
               </div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 border-2 border-blue-400/30 rounded-full animate-ping" />
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 border border-blue-400/20 rounded-full animate-pulse" />
+              {/* Anéis que crescem a partir do centro da logo */}
+              <div className="hero-ring" aria-hidden="true" />
+              <div className="hero-ring hero-ring--inner" aria-hidden="true" />
+              <div className="hero-ring hero-ring--mid" aria-hidden="true" />
+              <div className="hero-ring hero-ring--outer" aria-hidden="true" />
             </div>
-            
-            <Reveal>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-                Offs Na Hora
-              </h1>
-            </Reveal>
-            <Reveal delay={80}>
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-blue-300 mb-4 sm:mb-6">
-                Locução Profissional
-              </h2>
-            </Reveal>
+
+            {/* Título removido para evitar repetição com o logo */}
+            {/* Subtítulo removido para evitar repetição */}
             <Reveal delay={140}>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-blue-100 mb-6 sm:mb-8 leading-relaxed font-semibold px-2">
                 Qualidade de estúdio • Entrega rápida • Atendimento ágil
@@ -1133,12 +1148,15 @@ const Home = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center space-x-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-blue-400/30 flex items-center justify-center">
-                  <Mic className="w-5 h-5 text-white" />
-                </div>
+                <img
+                  src="/logo.png"
+                  alt="Logo Offs Na Hora"
+                  loading="lazy"
+                  className="h-10 w-auto drop-shadow-md"
+                />
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Offs na Hora</h3>
-                  <p className="text-blue-100">Locução Profissional</p>
+                  <h3 className="text-xl font-semibold text-white">Offs Na Hora</h3>
+                  {/* Texto repetitivo removido: Locução Profissional */}
                 </div>
               </div>
             </div>

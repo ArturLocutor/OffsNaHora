@@ -481,11 +481,63 @@ All colors MUST be HSL.
 }
 
 .bg-gradient-move {
-  background-image: radial-gradient(1200px 600px at 20% 0%, rgba(59,130,246,0.20), transparent 40%),
-                    radial-gradient(800px 400px at 80% 0%, rgba(147,51,234,0.18), transparent 45%),
-                    linear-gradient(135deg, rgba(17,24,39,1) 0%, rgba(30,41,59,1) 100%);
-  background-size: 200% 200%, 200% 200%, 100% 100%;
-  animation: gradientShift 18s ease-in-out infinite;
+  /* Paleta ajustada para combinar com o restante do site (slate + azul) */
+  background-image:
+    radial-gradient(900px 900px at 50% 50%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(600px 600px at 20% 20%, rgba(99, 102, 241, 0.10), transparent 55%),
+    linear-gradient(135deg, rgba(2, 6, 23, 1) 0%, rgba(15, 23, 42, 1) 100%);
+  background-size: 240% 240%, 200% 200%, 100% 100%;
+  animation: gradientShift 22s ease-in-out infinite;
+}
+
+/* Radial pulse from logo center */
+@keyframes radialPulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.35; }
+  60% { transform: translate(-50%, -50%) scale(1.6); opacity: 0.18; }
+  100% { transform: translate(-50%, -50%) scale(2.1); opacity: 0.08; }
+}
+
+.hero-radial-pulse {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 140px;
+  height: 140px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(147, 51, 234, 0.25) 35%, rgba(0,0,0,0) 70%);
+  transform: translate(-50%, -50%);
+  filter: blur(8px);
+  pointer-events: none;
+  animation: radialPulse 3.6s ease-out infinite;
+}
+
+/* Horizontal beam (ray) from logo center to the right at ~0° */
+@keyframes beamRight {
+  0% { width: 0; opacity: 0.85; }
+  60% { width: 55vw; opacity: 0.35; }
+  100% { width: 100vw; opacity: 0.08; }
+}
+
+.hero-beam-right {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  width: 0;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.85) 0%, rgba(59,130,246,0.6) 35%, rgba(147,51,234,0.3) 70%, rgba(0,0,0,0) 100%);
+  filter: blur(3px) saturate(110%);
+  pointer-events: none;
+  animation: beamRight 2.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-radial-pulse,
+  .hero-beam-right {
+    animation: none !important;
+    opacity: 0.12;
+  }
 }
 
 /* Reveal-on-scroll utility */
@@ -529,5 +581,57 @@ All colors MUST be HSL.
 @media (prefers-reduced-motion: reduce) {
   .cta-pulse {
     animation: none !important;
+  }
+}
+
+/* ===== Hero rings: expand from center around the logo ===== */
+@keyframes ringExpand {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.38; }
+  60% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.24; }
+  100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0.16; }
+}
+
+.hero-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 9999px;
+  border: 3px solid rgba(59, 130, 246, 0.45);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.12);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: ringExpand 3.6s ease-out infinite;
+}
+
+.hero-ring.hero-ring--inner {
+  width: 210px;
+  height: 210px;
+  border-color: rgba(59, 130, 246, 0.28);
+  animation-delay: 0.6s;
+}
+
+/* Anel intermediário para maior fluidez */
+.hero-ring.hero-ring--mid {
+  width: 270px;
+  height: 270px;
+  border: 2px solid rgba(59, 130, 246, 0.24);
+  animation-delay: 1s;
+}
+
+/* Anel externo adicional para continuidade da expansão */
+.hero-ring.hero-ring--outer {
+  width: 330px;
+  height: 330px;
+  border: 2px solid rgba(59, 130, 246, 0.18);
+  animation-delay: 1.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ring,
+  .hero-ring.hero-ring--inner {
+    animation: none !important;
+    opacity: 0.12;
   }
 }

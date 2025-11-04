@@ -133,17 +133,31 @@ const Index = () => {
       <ScrollToTop />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16" style={{backgroundImage: `url(${studioBackground})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
-        <div className="absolute inset-0 bg-gradient-move opacity-90" />
-        <div className="absolute inset-0" style={{backgroundImage: `url(${soundWaves})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.3}} />
+      <section className="relative overflow-hidden pt-16">
+        {/* Imagem de fundo com blur suave e escala para cobrir bordas do blur */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${studioBackground})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(3px)',
+            transform: 'scale(1.04)',
+            opacity: 0.28,
+          }}
+        />
+        {/* Gradiente animado suave para harmonizar com a paleta */}
+        <div className="absolute inset-0 bg-gradient-move opacity-55" />
+        {/* Overlay de linhas/ondas mais visível para reduzir a imagem de fundo */}
+        <div className="absolute inset-0" style={{backgroundImage: `url(${soundWaves})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.22}} />
         <div className="container mx-auto px-4 py-32 relative">
           <div className="text-center max-w-4xl mx-auto">
             <div className="mb-8 relative">
               <div className="w-32 h-32 mx-auto flex items-center justify-center mb-6">
                 <AudioWaveIcon size="lg" className="animate-pulse" />
               </div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border-2 border-blue-400/30 rounded-full animate-ping" />
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-blue-400/20 rounded-full animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border-2 border-blue-400/45 rounded-full animate-ping" />
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-blue-400/35 rounded-full animate-pulse" />
             </div>
             
             <Reveal>
@@ -505,12 +519,15 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center space-x-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-blue-400/30 flex items-center justify-center">
-                  <Mic className="w-5 h-5 text-white" />
-                </div>
+                <img
+                  src="/logo.png"
+                  alt="Logo Offs Na Hora"
+                  loading="lazy"
+                  className="h-10 w-auto drop-shadow-md"
+                />
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Offs Na Hora</h3>
-                  <p className="text-blue-100">Locução Profissional</p>
+                  <h3 className="text-xl font-semibold text-white">Offs Na Hora</h3>
+                  {/* Texto repetitivo removido: Locução Profissional */}
                 </div>
               </div>
             </div>
