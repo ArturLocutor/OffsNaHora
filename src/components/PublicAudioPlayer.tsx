@@ -16,9 +16,10 @@ interface PublicAudioPlayerProps {
   fileUrl?: string; // URL direta do Supabase
   compact?: boolean;
   extraCompact?: boolean;
+  hideTitle?: boolean;
 }
 
-const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, audioFile, description, fileUrl, compact, extraCompact }) => {
+const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, audioFile, description, fileUrl, compact, extraCompact, hideTitle }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -167,7 +168,9 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
     return (
       <Card className="w-full bg-gradient-to-br from-slate-900/98 to-slate-800/95 backdrop-blur-sm border border-slate-600/50 hover:border-slate-500/70 transition-all duration-300 hover:bg-slate-800/80 group shadow-lg">
         <CardContent className={`text-center ${extraCompact ? 'p-3' : compact ? 'p-4' : 'p-6'}`}>
-          <h3 className={`text-white ${extraCompact ? 'text-xs mb-2' : compact ? 'text-sm mb-3' : 'text-base mb-4'} font-bold truncate drop-shadow-md`}>{title}</h3>
+          {!hideTitle && (
+            <h3 className={`text-white ${extraCompact ? 'text-xs mb-2' : compact ? 'text-sm mb-3' : 'text-base mb-4'} font-bold truncate drop-shadow-md`}>{title}</h3>
+          )}
           <div className={`${extraCompact ? 'w-10 h-10' : compact ? 'w-12 h-12' : 'w-16 h-16'} bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3`}>
             <div className={`${extraCompact ? 'w-5 h-5' : compact ? 'w-6 h-6' : 'w-8 h-8'} bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center`}>
               <span className="text-white text-[10px] font-bold">AS</span>
@@ -183,7 +186,9 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
     return (
       <Card className="w-full bg-gradient-to-br from-slate-900/98 to-red-900/30 backdrop-blur-sm border border-red-500/40 shadow-lg">
         <CardContent className={`text-center ${extraCompact ? 'p-3' : compact ? 'p-4' : 'p-6'}`}>
-          <h3 className={`text-white ${extraCompact ? 'text-xs mb-2' : compact ? 'text-sm mb-3' : 'text-base mb-4'} font-bold truncate drop-shadow-md`}>{title}</h3>
+          {!hideTitle && (
+            <h3 className={`text-white ${extraCompact ? 'text-xs mb-2' : compact ? 'text-sm mb-3' : 'text-base mb-4'} font-bold truncate drop-shadow-md`}>{title}</h3>
+          )}
           <div className={`${extraCompact ? 'w-10 h-10' : compact ? 'w-12 h-12' : 'w-16 h-16'} bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-full flex items-center justify-center mx-auto mb-3`}>
             <span className="text-red-400 text-xl">⚠️</span>
           </div>
@@ -196,10 +201,12 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
       return (
       <Card className="w-full bg-gradient-to-br from-slate-900/98 to-slate-800/95 backdrop-blur-sm border border-slate-600/50 hover:border-slate-500/70 transition-all duration-300 hover:bg-slate-800/80 group hover:shadow-xl hover:shadow-blue-500/20 shadow-lg">
         <CardContent className={`text-center ${extraCompact ? 'p-3' : compact ? 'p-4' : 'p-6'}`}>
-          <h3 className={`text-white font-bold truncate group-hover:text-blue-100 transition-colors drop-shadow-md ${extraCompact ? 'text-xs mb-2' : compact ? 'text-sm mb-3' : 'text-base mb-4'}`}>
-            {title}
-          </h3>
-          {description && !description.includes(title || '') && (
+          {!hideTitle && (
+            <h3 className={`text-white font-bold truncate group-hover:text-blue-100 transition-colors drop-shadow-md ${extraCompact ? 'text-xs mb-2' : compact ? 'text-sm mb-3' : 'text-base mb-4'}`}>
+              {title}
+            </h3>
+          )}
+          {!hideTitle && description && !description.includes(title || '') && (
             <p className={`text-slate-100 text-xs text-center ${extraCompact ? 'mb-2' : compact ? 'mb-3' : 'mb-4'} opacity-95 line-clamp-2 group-hover:opacity-100 transition-opacity drop-shadow-sm font-medium`}>
               {description}
             </p>

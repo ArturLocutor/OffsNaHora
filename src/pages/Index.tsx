@@ -213,12 +213,13 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-12">
             {displayedAudios.length > 0 ? (
-              displayedAudios.map((audio) => (
+              displayedAudios.slice(0, 1).map((audio) => (
                 <PublicAudioPlayer
                   key={audio.id}
                   title={audio.title}
                   fileName={audio.fileName}
-                  description={audio.description || undefined}
+                  description={undefined}
+                  hideTitle
                 />
               ))
             ) : (
@@ -239,19 +240,7 @@ const Index = () => {
             )}
           </div>
           
-          {/* Botão Ver Mais */}
-          {displayedCount < totalAudiosCount && (
-            <div className="text-center">
-              <Button 
-                onClick={handleShowMore}
-                variant="outline" 
-                className="border-blue-400 text-blue-300 hover:bg-blue-400/10 text-lg px-8 py-3"
-              >
-                <ArrowDown className="mr-2 h-5 w-5" />
-                Ver Mais ({totalAudiosCount - displayedCount} áudios restantes)
-              </Button>
-            </div>
-          )}
+          {/* Removido botão Ver Mais para manter um demonstrativo único no portfólio */}
           
           {/* Google Drive Link */}
           <div className="text-center mt-12">

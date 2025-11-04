@@ -442,12 +442,12 @@ const Home = () => {
                   size="lg" 
                   variant="outline" 
                   className="border-blue-400 text-blue-300 hover:bg-blue-400/10 text-sm sm:text-base lg:text-lg px-4 sm:px-6 lg:px-8 py-3 sm:py-4 cursor-pointer hover-float pressable cta-pulse"
-                  aria-label="Ouvir amostras - ir para os áudios"
-                  title="Ouvir amostras"
+                  aria-label="Ouvir Demonstrativos - ir para os áudios"
+                  title="Ouvir Demonstrativos"
                   onClick={() => { recordEvent('cta_portfolio_click'); scrollToSection("portfolio"); }}
                 >
                   <Music className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                  Ouvir Amostras
+                  Ouvir Demonstrativos
                 </Button>
               </div>
             </Reveal>
@@ -520,7 +520,7 @@ const Home = () => {
                           </div>
                           <div className={`text-sm ${colors.textSecondary} opacity-90 font-normal flex items-center gap-2`}>
                             <Radio className={`w-3 h-3 ${colors.icon}`} />
-                            Locução Profissional
+                            Locutor Profissional
                           </div>
                         </div>
                         {/* Botão Escolher este Locutor - Quadrado ao lado com texto */}
@@ -562,21 +562,13 @@ const Home = () => {
                           </span>
                         </div>
                       </div>
-                      <div className={`${colors.textSecondary} text-sm sm:text-base flex items-center gap-3 mt-4 relative z-10`}>
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${colors.accent} animate-pulse shadow-lg`}></div>
-                          <Volume2 className={`w-4 h-4 ${colors.icon}`} />
-                        </div>
-                        <span className="font-medium">
-                          {speaker.audios.length} áudio{speaker.audios.length !== 1 ? 's' : ''} disponível{speaker.audios.length !== 1 ? 'is' : ''}
-                        </span>
-                      </div>
+                      
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      {/* Mini Players - Mostra até 3 áudios */}
-                      {speaker.audios.slice(0, 3).map((audio, audioIndex) => (
+                      {/* Mini Player - único demostrativo */}
+                      {speaker.audios && speaker.audios[0] ? (
                         <div 
-                          key={audio.id} 
+                          key={speaker.audios[0].id} 
                           className={`
                             ${colors.miniPlayerBg} 
                             rounded-xl p-4 
@@ -588,22 +580,17 @@ const Home = () => {
                             relative overflow-hidden
                             group/mini
                           `}
-                          style={{ animationDelay: `${(index * 100) + (audioIndex * 50)}ms` }}
+                          style={{ animationDelay: `${index * 120}ms` }}
                         >
                           {/* Efeito de onda sonora decorativo */}
                           <div className="absolute top-1 right-2 opacity-10 group-hover/mini:opacity-20 transition-opacity duration-300">
                             <Music className="h-4 w-4 text-white" />
                           </div>
                           
-                          <h4 className="text-white text-sm font-bold mb-3 truncate flex items-center gap-2 drop-shadow-lg">
-                            <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${colors.gradient} animate-pulse`}></div>
-                            <Play className="h-3 w-3 opacity-80" />
-                            {audio.title}
-                          </h4>
                           <MiniAudioPlayer 
-                            audioFile={audio.fileName}
-                            fileUrl={audio.file_url}
-                            title={audio.title}
+                            audioFile={speaker.audios[0].fileName}
+                            fileUrl={speaker.audios[0].file_url}
+                            title={speaker.audios[0].title}
                             colorScheme={
                               getSpeakerColors(speaker.name).name === 'emerald' ? 'green' :
                               getSpeakerColors(speaker.name).name === 'rose' ? 'purple' :
@@ -614,40 +601,9 @@ const Home = () => {
                             waveSize="xs"
                           />
                         </div>
-                      ))}
-                      
-                      {/* Botões de Ação */}
-                      <div className="pt-4 space-y-3">
-                        {/* Botão Ver Mais */}
-                        <Button
-                          onClick={(e) => {
-                            e.stopPropagation(); // Impede que o clique no botão acione o onClick do Card
-                            setSelectedSpeaker(speaker.name);
-                            setDisplayedAudios(speaker.audios.slice(0, displayedCount));
-                          }}
-                          variant="outline"
-                          className={`
-                            w-full border-2 ${colors.border} ${colors.text}
-                            hover:${colors.button} hover:text-white
-                            rounded-xl py-3 px-6 
-                            font-semibold text-sm 
-                            transform transition-all duration-300 
-                            hover:scale-[1.02] hover:shadow-lg 
-                            active:scale-[0.98]
-                            relative overflow-hidden
-                            group/button
-                            bg-transparent
-                          `}
-                        >
-                          {/* Efeito de brilho no botão */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/button:translate-x-full transition-transform duration-700"></div>
-                          
-                          <span className="relative z-10 flex items-center justify-center gap-2">
-                            Ver Mais ({speaker.audios.length} áudio{speaker.audios.length !== 1 ? 's' : ''})
-                            <ArrowDown className="h-4 w-4 transform group-hover/button:translate-y-0.5 transition-transform duration-300" />
-                          </span>
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="text-blue-200 text-sm">Nenhum demonstrativo disponível.</div>
+                      )}
                     </CardContent>
                   </Card>
                 );
@@ -675,9 +631,7 @@ const Home = () => {
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
                   Áudios de {selectedSpeaker}
                 </h3>
-                <p className="text-blue-200 mb-4">
-                  {speakers.find(s => s.name === selectedSpeaker)?.audios.length || 0} áudio{(speakers.find(s => s.name === selectedSpeaker)?.audios.length || 0) !== 1 ? 's' : ''} disponível{(speakers.find(s => s.name === selectedSpeaker)?.audios.length || 0) !== 1 ? 'is' : ''}
-                </p>
+                {/* Removido contador de áudios para simplificar a visualização */}
                 
                 {/* Botão para Escolher este Locutor */}
                 <Button
@@ -705,7 +659,7 @@ const Home = () => {
 
               {/* Grid de Áudios do Locutor */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {displayedAudios.map((audio) => (
+                {displayedAudios.slice(0, 1).map((audio) => (
                   <PublicAudioPlayer 
                     key={audio.id}
                     audioFile={audio.fileName} 
@@ -713,30 +667,13 @@ const Home = () => {
                     compact
                     extraCompact
                     title={audio.title}
-                    description={audio.description || undefined}
+                    description={undefined}
+                    hideTitle
                   />
                 ))}
               </div>
 
-              {/* Botão Ver Todos os Áudios do Locutor */}
-              {displayedCount < (speakers.find(s => s.name === selectedSpeaker)?.audios.length || 0) && (
-                <div className="text-center mt-6 sm:mt-8">
-                  <Button 
-                    onClick={() => {
-                      const speaker = speakers.find(s => s.name === selectedSpeaker);
-                      if (speaker) {
-                        setDisplayedCount(speaker.audios.length);
-                        setDisplayedAudios(speaker.audios);
-                      }
-                    }}
-                    variant="outline" 
-                    className="border-blue-400 text-blue-300 hover:bg-blue-400/10 text-sm sm:text-base"
-                  >
-                    <ArrowDown className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                    Ver Todos os Áudios ({speakers.find(s => s.name === selectedSpeaker)?.audios.length || 0})
-                  </Button>
-                </div>
-              )}
+              {/* Removido botão de ver todos os áudios para manter um demonstrativo único */}
             </>
           )}
         </div>
