@@ -21,7 +21,7 @@ const ContactForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const { services } = useLocalSiteData();
+  const { services, configs } = useLocalSiteData();
   const { selectedSpeaker, setSelectedSpeaker } = useSpeaker();
   const [availableSpeakers, setAvailableSpeakers] = useState<string[]>(['Todos']);
 
@@ -89,7 +89,8 @@ Aguardo seu retorno com o orçamento personalizado!
 
     const encodedMessage = encodeURIComponent(message);
     recordEvent('whatsapp_contact_sent', { service: formData.locationType, duration: formData.duration });
-    window.open(`https://wa.me/5517981925660?text=${encodedMessage}`, "_blank");
+    const whatsappNumber = (configs?.whatsapp_number || '5517981925660').replace(/[^\d]/g, '');
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank");
     
     setIsSubmitting(false);
     setShowSuccess(true);

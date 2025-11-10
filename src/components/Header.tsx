@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Instagram, Mail, Menu, X, Mic } from "lucide-react";
+import { useLocalSiteData } from "@/hooks/useLocalSiteData";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { configs } = useLocalSiteData();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,7 +87,7 @@ const Header = () => {
             {/* Contact Buttons */}
             <div className="flex items-center space-x-2 sm:space-x-4 ml-4 lg:ml-8">
               <a
-                href="https://wa.me/5517981925660"
+                href={`https://wa.me/${(configs?.whatsapp_number || '5517981925660').replace(/[^\d]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center space-x-1 sm:space-x-2"
@@ -136,7 +138,7 @@ const Header = () => {
               
               <div className="px-4 pt-3 sm:pt-4 border-t border-white/10">
                 <a
-                  href="https://wa.me/5517981925660"
+                  href={`https://wa.me/${(configs?.whatsapp_number || '5517981925660').replace(/[^\d]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center space-x-2 w-full justify-center"

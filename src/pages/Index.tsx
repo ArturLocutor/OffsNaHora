@@ -522,12 +522,12 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
-              <a 
-                href={`mailto:${configs['email'] || 'ARTURSCURCIATTO@gmail.com'}`}
+                <a
+                  href={`mailto:${configs['email'] || 'contato@offsnahora.com.br'}`}
                 className="text-blue-100 hover:text-white transition-colors flex items-center group"
               >
                 <Mail className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-                {configs['email'] || 'ARTURSCURCIATTO@gmail.com'}
+                  {configs['email'] || 'contato@offsnahora.com.br'}
               </a>
               
               <div className="flex space-x-4">
@@ -541,8 +541,8 @@ const Index = () => {
                     <Instagram className="h-6 w-6" />
                   </a>
                 )}
-                <a 
-                  href={`https://wa.me/${configs['whatsapp_number']?.replace(/[^\d]/g, '') || '5517981925660'}`}
+                <a
+                  href={`https://wa.me/${configs['whatsapp_number']?.replace(/[^\d]/g, '') || '17991598169'}`}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-blue-100 hover:text-white transition-colors hover:scale-110 transform"

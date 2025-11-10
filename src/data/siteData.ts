@@ -58,8 +58,8 @@ export const defaultSiteData = {
     'testimonials-title': 'O que dizem sobre meu trabalho'
   },
   configs: {
-    email: 'arturscurciatto@gmail.com',
-    whatsapp_number: '5517981925660',
+    email: 'contato@offsnahora.com.br',
+    whatsapp_number: '17991598169',
     instagram_url: '',
     google_drive_link: 'https://drive.google.com/drive/folders/18aPWiGwGPA99nwVsEp9gGGAslCzFvFq8',
     profile_image: 'https://i.imgur.com/5H6o9S0.jpeg'
