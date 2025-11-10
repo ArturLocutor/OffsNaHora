@@ -702,7 +702,7 @@ const Home = () => {
 
             {/* Diferenciais - Grid centralizado */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16 sm:mb-20">
-              <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 backdrop-blur-sm border border-green-400/30 rounded-2xl p-6 sm:p-8 text-center hover:scale-105 transition-transform duration-300">
+              <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 backdrop-blur-sm border border-green-400/30 rounded-2xl p-6 sm:p-8 text-center hover:animate-float-active hover-glow-bottom glow-green">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
                   <Award className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                 </div>
@@ -710,7 +710,7 @@ const Home = () => {
                 <p className="text-green-200 text-sm sm:text-base">Áudio profissional com equipamentos de alta qualidade</p>
               </div>
               
-              <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur-sm border border-purple-400/30 rounded-2xl p-6 sm:p-8 text-center hover:scale-105 transition-transform duration-300">
+              <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur-sm border border-purple-400/30 rounded-2xl p-6 sm:p-8 text-center hover:animate-float-active hover-glow-bottom glow-purple">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center">
                   <Wrench className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                 </div>
@@ -718,7 +718,7 @@ const Home = () => {
                 <p className="text-purple-200 text-sm sm:text-base">Prazos respeitados e entregas no tempo combinado</p>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 backdrop-blur-sm border border-blue-400/30 rounded-2xl p-6 sm:p-8 text-center sm:col-span-2 lg:col-span-1 hover:scale-105 transition-transform duration-300">
+              <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 backdrop-blur-sm border border-blue-400/30 rounded-2xl p-6 sm:p-8 text-center sm:col-span-2 lg:col-span-1 hover:animate-float-active hover-glow-bottom glow-blue">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
                   <Users className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                 </div>
@@ -748,7 +748,7 @@ const Home = () => {
                   <h4 className="text-xl sm:text-2xl font-bold text-white">Produção de Áudio Profissional</h4>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-transparent rounded-lg p-4 border border-blue-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-blue-400/20 shadow-md hover:shadow-lg hover:shadow-blue-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-blue">
                     <h5 className="text-blue-300 font-semibold mb-2">🎙️ Locução e Produção Especializada</h5>
                     <p className="text-blue-100 text-sm">
                       Procura por edição e produção de áudio com locutor e produtor especializados? Trabalhamos com som de rua, 
@@ -756,14 +756,14 @@ const Home = () => {
                       notícias, programas, projetos e muito mais.
                     </p>
                   </div>
-                  <div className="bg-transparent rounded-lg p-4 border border-blue-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-blue-400/20 shadow-md hover:shadow-lg hover:shadow-blue-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-blue">
                     <h5 className="text-blue-300 font-semibold mb-2">🏪 Som para Lojas e Comércios</h5>
                     <p className="text-blue-100 text-sm">
                       Sua loja ou comércio precisa vender mais? Criamos e produzimos o som ideal para seu porta de loja, 
                       com programação completa, incluindo falas e músicas. Basta apenas colocar para tocar e atrair novos clientes!
                     </p>
                   </div>
-                  <div className="bg-transparent rounded-lg p-4 border border-blue-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-blue-400/20 shadow-md hover:shadow-lg hover:shadow-blue-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-blue">
                     <h5 className="text-blue-300 font-semibold mb-2">📻 Serviços para Emissoras</h5>
                     <p className="text-blue-100 text-sm">
                       Precisa de uma voz diferente para os projetos de sua emissora? Produzimos, gravamos e editamos desde notícias, 
@@ -782,7 +782,7 @@ const Home = () => {
                   <h4 className="text-xl sm:text-2xl font-bold text-white">Rádios Corporativas e Personalizadas</h4>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-transparent rounded-lg p-4 border border-purple-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-purple-400/20 shadow-md hover:shadow-lg hover:shadow-purple-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-purple">
                     <h5 className="text-purple-300 font-semibold mb-2">🏢 Rádio Personalizada para sua Marca</h5>
                     <p className="text-purple-100 text-sm">
                       Sua empresa, marca ou produto precisa estar sempre em destaque, certo? Venda muito mais criando uma rádio 
@@ -790,14 +790,14 @@ const Home = () => {
                       empresa, escola, hospital, consultório ou qualquer área de serviços.
                     </p>
                   </div>
-                  <div className="bg-transparent rounded-lg p-4 border border-purple-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-purple-400/20 shadow-md hover:shadow-lg hover:shadow-purple-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-purple">
                     <h5 className="text-purple-300 font-semibold mb-2">🎵 Acervo Musical Completo</h5>
                     <p className="text-purple-100 text-sm">
                       Cansado das mesmas músicas? Temos o maior acervo de músicas de todos os estilos para agradar a todos os gostos! 
                       Recarregue seu cartão de memória ou pen drive com suas músicas preferidas. Faça sua lista de faixas e traga para a gente!
                     </p>
                   </div>
-                  <div className="bg-transparent rounded-lg p-4 border border-purple-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-purple-400/20 shadow-md hover:shadow-lg hover:shadow-purple-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-purple">
                     <h5 className="text-purple-300 font-semibold mb-2">🔄 Serviço de Locução Folguista</h5>
                     <p className="text-purple-100 text-sm">
                       Sua rádio está com dificuldade para conceder férias à equipe? Oferecemos serviço de locução folguista, 
@@ -816,21 +816,21 @@ const Home = () => {
                   <h4 className="text-xl sm:text-2xl font-bold text-white">Marketing e Comunicação</h4>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-transparent rounded-lg p-4 border border-green-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-green-400/20 shadow-md hover:shadow-lg hover:shadow-green-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-green">
                     <h5 className="text-green-300 font-semibold mb-2">📈 Estratégias de Comunicação</h5>
                     <p className="text-green-100 text-sm">
                       Estúdio Rones Carvalho e DM Impulse Digital — comunicação criativa, estratégica e com resultados reais. 
                       Desenvolvemos estratégias personalizadas para destacar seu negócio no mercado.
                     </p>
                   </div>
-                  <div className="bg-transparent rounded-lg p-4 border border-green-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-green-400/20 shadow-md hover:shadow-lg hover:shadow-green-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-green">
                     <h5 className="text-green-300 font-semibold mb-2">🛍️ Som de Rua Personalizado</h5>
                     <p className="text-green-100 text-sm">
                       Oferecemos serviços de locução no estilo "ao vivo", com playlist musical personalizada para você colocar 
                       na frente da sua loja ou comércio. Essa estratégia chama a atenção dos clientes, atrai mais público e aumenta suas vendas!
                     </p>
                   </div>
-                  <div className="bg-transparent rounded-lg p-4 border border-green-400/20">
+<div className="bg-transparent rounded-lg p-4 border border-green-400/20 shadow-md hover:shadow-lg hover:shadow-green-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-green">
                     <h5 className="text-green-300 font-semibold mb-2">🎯 Gravação para Aumentar Vendas</h5>
                     <p className="text-green-100 text-sm">
                       No Estúdio Carvalho, oferecemos gravação e produção de áudio personalizado, com chamadas impactantes 
@@ -963,6 +963,15 @@ const Home = () => {
                 }
                 return { bg: 'from-slate-500/10 to-slate-700/10', text: 'text-slate-200' };
               })();
+              const glowTintClass = (() => {
+                const g = serviceColorClass || '';
+                if (g.includes('emerald') || g.includes('teal') || g.includes('green')) return 'glow-emerald';
+                if (g.includes('indigo') || g.includes('blue') || g.includes('cyan')) return 'glow-blue';
+                if (g.includes('violet') || g.includes('purple')) return 'glow-violet';
+                if (g.includes('pink') || g.includes('rose')) return 'glow-pink';
+                if (g.includes('orange') || g.includes('amber') || g.includes('red') || g.includes('yellow')) return 'glow-orange';
+                return 'glow-slate';
+              })();
               const isBest = !!service.is_best_seller;
               const isRec = !!service.is_recommended;
               const titleLen = (service.title || '').length;
@@ -990,7 +999,10 @@ const Home = () => {
                         "transition-all duration-200",
                         "cursor-pointer group overflow-visible",
                         "flex items-center justify-center",
-                        "min-h-[64px] sm:min-h-[80px] md:min-h-[96px]"
+                        "min-h-[64px] sm:min-h-[80px] md:min-h-[96px]",
+                        "hover:animate-float-active",
+                        "hover-glow-bottom",
+                        glowTintClass
                       )}
                     >
                       {/* Fundo temático sutil alinhado aos cards de locutores */}
@@ -1000,7 +1012,7 @@ const Home = () => {
                           {isBest && (
                             <div className="relative">
                               <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-yellow-300/20 rounded-md" />
-                              <div className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 font-bold rounded-md shadow ring-1 ring-white/40 animate-float-slow whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                              <div className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 font-bold rounded-md shadow ring-1 ring-white/40 transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:scale-[1.02] whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
                                 Mais Vendido
                               </div>
                             </div>
@@ -1008,7 +1020,7 @@ const Home = () => {
                           {isRec && (
                             <div className="relative">
                               <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-indigo-300/20 rounded-md" />
-                              <div className={`bg-gradient-to-r from-indigo-400 to-violet-500 text-white font-bold rounded-md shadow ring-1 ring-white/40 animate-float-slow whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                              <div className={`bg-gradient-to-r from-indigo-400 to-violet-500 text-white font-bold rounded-md shadow ring-1 ring-white/40 transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:scale-[1.02] whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
                                 Recomendado
                               </div>
                             </div>

@@ -402,6 +402,41 @@ All colors MUST be HSL.
   animation: pulse-glow 4s ease-in-out infinite;
 }
 
+/* Bottom glow utility for hover */
+.hover-glow-bottom {
+  position: relative;
+}
+.hover-glow-bottom::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -6px;
+  height: 12px;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at center, var(--glow-color, rgba(255,255,255,0.35)) 0%, transparent 70%);
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(8px);
+  transition: opacity 200ms ease, transform 200ms ease, filter 200ms ease;
+  pointer-events: none;
+}
+.hover-glow-bottom:hover::after,
+.group:hover .hover-glow-bottom::after {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(10px);
+}
+
+/* Glow tint helpers */
+.glow-blue { --glow-color: rgba(59, 130, 246, 0.45); }
+.glow-purple { --glow-color: rgba(139, 92, 246, 0.45); }
+.glow-green { --glow-color: rgba(16, 185, 129, 0.45); }
+.glow-emerald { --glow-color: rgba(16, 185, 129, 0.45); }
+.glow-violet { --glow-color: rgba(139, 92, 246, 0.45); }
+.glow-orange { --glow-color: rgba(249, 115, 22, 0.45); }
+.glow-slate { --glow-color: rgba(148, 163, 184, 0.45); }
+
 /* Volume Slider Styles */
 .volume-slider {
   -webkit-appearance: none;
