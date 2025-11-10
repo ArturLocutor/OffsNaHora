@@ -297,7 +297,7 @@ const ConfigsSection = ({ configs, onSave, saving }: {
                 id="whatsapp"
                 value={localConfigs['whatsapp_number'] || ''}
                 onChange={(e) => setLocalConfigs({...localConfigs, 'whatsapp_number': e.target.value})}
-                placeholder="5517981925660"
+            placeholder="17991598169"
               />
             </div>
 

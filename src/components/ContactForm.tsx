@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Phone, Send, CheckCircle, User } from "lucide-react";
 import { useLocalSiteData } from "@/hooks/useLocalSiteData";
 import { useSpeaker } from "@/contexts/SpeakerContext";
+import { formatBrPhone } from "@/lib/utils";
 import { recordEvent } from "../utils/metrics";
 import { getAvailableSpeakers } from "@/utils/publicAudioManager";
 
@@ -89,7 +90,7 @@ Aguardo seu retorno com o orçamento personalizado!
 
     const encodedMessage = encodeURIComponent(message);
     recordEvent('whatsapp_contact_sent', { service: formData.locationType, duration: formData.duration });
-    const whatsappNumber = (configs?.whatsapp_number || '5517981925660').replace(/[^\d]/g, '');
+    const whatsappNumber = ('17991598169').replace(/[^\d]/g, '');
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank");
     
     setIsSubmitting(false);
@@ -268,7 +269,7 @@ Aguardo seu retorno com o orçamento personalizado!
 
           <div className="text-center space-y-2">
             <p className="text-slate-300 text-sm opacity-80">
-              💬 Seu orçamento será enviado diretamente para o WhatsApp do Artur Sutto
+            💬 Seu orçamento será enviado diretamente para o WhatsApp do Offs Na Hora • {formatBrPhone('17991598169')}
             </p>
             <div className="flex justify-center items-center gap-4 text-xs text-slate-400">
               <span className="flex items-center gap-1">

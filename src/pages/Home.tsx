@@ -21,7 +21,7 @@ import { useSpeaker } from "@/contexts/SpeakerContext";
 import { recordEvent } from "../utils/metrics";
 import studioBackground from "@/assets/studio-background.jpg";
 import soundWaves from "@/assets/sound-waves.jpg";
-import { cn } from "@/lib/utils";
+import { cn, formatBrPhone } from "@/lib/utils";
 
 interface Audio {
   id: string;
@@ -1103,10 +1103,16 @@ const Home = () => {
                 <Mail className="h-5 w-5 mr-2" />
               <span className="text-sm">{configs.email || 'contato@offsnahora.com.br'}</span>
               </a>
-            <a href={`https://wa.me/${configs.whatsapp_number || '17991598169'}`} className="flex items-center text-green-300 hover:text-green-400 transition-colors">
-                <Phone className="h-5 w-5 mr-2" />
-                <span className="text-sm">(17) 98192-5660</span>
-              </a>
+            {(() => {
+              const whatsappDigits = ('17991598169').replace(/[^\d]/g, '');
+              const formatted = formatBrPhone(whatsappDigits);
+              return (
+                <a href={`https://wa.me/${whatsappDigits}`} className="flex items-center text-green-300 hover:text-green-400 transition-colors">
+                  <Phone className="h-5 w-5 mr-2" />
+                  <span className="text-sm">{formatted}</span>
+                </a>
+              );
+            })()}
               {configs.instagram_url && (
                 <a href={configs.instagram_url} target="_blank" rel="noopener noreferrer" className="flex items-center text-pink-300 hover:text-pink-400 transition-colors">
                   <Instagram className="h-5 w-5 mr-2" />
@@ -1126,3 +1132,4 @@ const Home = () => {
 };
 
 export default Home;
+  // formatBrPhone movida para utilitário compartilhado
