@@ -22,6 +22,7 @@ import { recordEvent } from "../utils/metrics";
 import studioBackground from "@/assets/studio-background.jpg";
 import soundWaves from "@/assets/sound-waves.jpg";
 import { cn, formatBrPhone } from "@/lib/utils";
+import { toast } from "@/components/ui/sonner";
 
 interface Audio {
   id: string;
@@ -528,13 +529,14 @@ const Home = () => {
                           <Button
                             onClick={(e) => {
                               e.stopPropagation();
-                              // Usar o contexto para selecionar o locutor no formulário
+                              // Selecionar locutor para o formulário
                               setSpeakerInForm(speaker.name);
-                              // Navegar para o formulário
-                              const contactSection = document.getElementById('contact');
-                              if (contactSection) {
-                                contactSection.scrollIntoView({ behavior: 'smooth' });
+                              // Navegar para a seção de serviços
+                              const servicesSection = document.getElementById('services');
+                              if (servicesSection) {
+                                servicesSection.scrollIntoView({ behavior: 'smooth' });
                               }
+                              toast(`Locutor ${speaker.name} selecionado. Agora escolha um serviço.`);
                               recordEvent('speaker_selected', { speaker: speaker.name });
                             }}
                             size="sm"
@@ -636,13 +638,14 @@ const Home = () => {
                 {/* Botão para Escolher este Locutor */}
                 <Button
                   onClick={() => {
-                    // Usar o contexto para selecionar o locutor no formulário
+                    // Selecionar locutor para o formulário
                     setSpeakerInForm(selectedSpeaker);
-                    // Navegar para o formulário
-                    const contactSection = document.getElementById('contact');
-                    if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    // Navegar para a seção de serviços
+                    const servicesSection = document.getElementById('services');
+                    if (servicesSection) {
+                      servicesSection.scrollIntoView({ behavior: 'smooth' });
                     }
+                    toast(`Locutor ${selectedSpeaker} selecionado. Agora escolha um serviço.`);
                     recordEvent('speaker_selected', { speaker: selectedSpeaker });
                   }}
                   className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95 relative overflow-hidden group/select border border-white/10"
@@ -972,6 +975,7 @@ const Home = () => {
                       onClick={() => {
                         recordEvent('service_card_click', { title: service.title });
                         window.dispatchEvent(new CustomEvent('selectService', { detail: service.title }));
+                        toast(`Serviço ${service.title} selecionado. Preencha o formulário.`);
                         document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                       }}
                       onKeyDown={(e) => {

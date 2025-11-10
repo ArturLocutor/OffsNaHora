@@ -66,7 +66,7 @@ const ContactForm = () => {
     // Simular delay para melhor UX
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const message = `*SOLICITAÇÃO DE ORÇAMENTO - ARTUR SUTTO*
+    const message = `*SOLICITAÇÃO DE ORÇAMENTO - OFFS NA HORA*
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -86,7 +86,7 @@ ${formData.description}
 
 Aguardo seu retorno com o orçamento personalizado!
 
-*Offs na Hora - Qualidade Garantida*`;
+*Offs Na Hora - Qualidade Garantida*`;
 
     const encodedMessage = encodeURIComponent(message);
     recordEvent('whatsapp_contact_sent', { service: formData.locationType, duration: formData.duration });
