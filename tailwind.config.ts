@@ -99,6 +99,10 @@ export default {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-3px)' }
 				},
+				badgeFloat: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-1.2px)' }
+				},
 				badgePulse: {
 					'0%, 100%': { opacity: '0.6' },
 					'50%': { opacity: '1' }
@@ -110,7 +114,8 @@ export default {
 				'float-slow': 'float 2.5s ease-in-out infinite',
 				'float-idle': 'floatIdle 4s ease-in-out infinite',
 				'float-active': 'floatActive 2.5s ease-in-out infinite',
-				'badge-pulse': 'badgePulse 2s ease-in-out infinite'
+				'badge-pulse': 'badgePulse 2s ease-in-out infinite',
+				'badge-float': 'badgeFloat 7s cubic-bezier(0.3, 0.0, 0.3, 1) infinite'
 			}
 		}
 	},

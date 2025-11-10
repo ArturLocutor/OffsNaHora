@@ -1012,7 +1012,7 @@ const Home = () => {
                           {isBest && (
                             <div className="relative">
                               <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-yellow-300/20 rounded-md" />
-                              <div className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 font-bold rounded-md shadow ring-1 ring-white/40 transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:scale-[1.02] whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                              <div className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 font-bold rounded-md shadow ring-1 ring-white/40 transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:scale-[1.02] animate-float whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
                                 Mais Vendido
                               </div>
                             </div>
@@ -1020,7 +1020,7 @@ const Home = () => {
                           {isRec && (
                             <div className="relative">
                               <div className="absolute inset-0 -z-10 blur-md opacity-70 animate-badge-pulse bg-indigo-300/20 rounded-md" />
-                              <div className={`bg-gradient-to-r from-indigo-400 to-violet-500 text-white font-bold rounded-md shadow ring-1 ring-white/40 transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:scale-[1.02] whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
+                              <div className={`bg-gradient-to-r from-indigo-400 to-violet-500 text-white font-bold rounded-md shadow ring-1 ring-white/40 transition-transform duration-200 group-hover:-translate-y-[2px] group-hover:scale-[1.02] animate-float whitespace-nowrap ${badgeSizeClass} ${badgePadXClass} py-1`}>
                                 Recomendado
                               </div>
                             </div>
