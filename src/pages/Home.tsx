@@ -748,7 +748,7 @@ const Home = () => {
                   <h4 className="text-xl sm:text-2xl font-bold text-white">Produção de Áudio Profissional</h4>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-blue-400/20">
                     <h5 className="text-blue-300 font-semibold mb-2">🎙️ Locução e Produção Especializada</h5>
                     <p className="text-blue-100 text-sm">
                       Procura por edição e produção de áudio com locutor e produtor especializados? Trabalhamos com som de rua, 
@@ -756,14 +756,14 @@ const Home = () => {
                       notícias, programas, projetos e muito mais.
                     </p>
                   </div>
-                  <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-blue-400/20">
                     <h5 className="text-blue-300 font-semibold mb-2">🏪 Som para Lojas e Comércios</h5>
                     <p className="text-blue-100 text-sm">
                       Sua loja ou comércio precisa vender mais? Criamos e produzimos o som ideal para seu porta de loja, 
                       com programação completa, incluindo falas e músicas. Basta apenas colocar para tocar e atrair novos clientes!
                     </p>
                   </div>
-                  <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-blue-400/20">
                     <h5 className="text-blue-300 font-semibold mb-2">📻 Serviços para Emissoras</h5>
                     <p className="text-blue-100 text-sm">
                       Precisa de uma voz diferente para os projetos de sua emissora? Produzimos, gravamos e editamos desde notícias, 
@@ -782,7 +782,7 @@ const Home = () => {
                   <h4 className="text-xl sm:text-2xl font-bold text-white">Rádios Corporativas e Personalizadas</h4>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-purple-900/30 rounded-lg p-4 border border-purple-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-purple-400/20">
                     <h5 className="text-purple-300 font-semibold mb-2">🏢 Rádio Personalizada para sua Marca</h5>
                     <p className="text-purple-100 text-sm">
                       Sua empresa, marca ou produto precisa estar sempre em destaque, certo? Venda muito mais criando uma rádio 
@@ -790,14 +790,14 @@ const Home = () => {
                       empresa, escola, hospital, consultório ou qualquer área de serviços.
                     </p>
                   </div>
-                  <div className="bg-purple-900/30 rounded-lg p-4 border border-purple-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-purple-400/20">
                     <h5 className="text-purple-300 font-semibold mb-2">🎵 Acervo Musical Completo</h5>
                     <p className="text-purple-100 text-sm">
                       Cansado das mesmas músicas? Temos o maior acervo de músicas de todos os estilos para agradar a todos os gostos! 
                       Recarregue seu cartão de memória ou pen drive com suas músicas preferidas. Faça sua lista de faixas e traga para a gente!
                     </p>
                   </div>
-                  <div className="bg-purple-900/30 rounded-lg p-4 border border-purple-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-purple-400/20">
                     <h5 className="text-purple-300 font-semibold mb-2">🔄 Serviço de Locução Folguista</h5>
                     <p className="text-purple-100 text-sm">
                       Sua rádio está com dificuldade para conceder férias à equipe? Oferecemos serviço de locução folguista, 
@@ -816,21 +816,21 @@ const Home = () => {
                   <h4 className="text-xl sm:text-2xl font-bold text-white">Marketing e Comunicação</h4>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-green-900/30 rounded-lg p-4 border border-green-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-green-400/20">
                     <h5 className="text-green-300 font-semibold mb-2">📈 Estratégias de Comunicação</h5>
                     <p className="text-green-100 text-sm">
                       Estúdio Rones Carvalho e DM Impulse Digital — comunicação criativa, estratégica e com resultados reais. 
                       Desenvolvemos estratégias personalizadas para destacar seu negócio no mercado.
                     </p>
                   </div>
-                  <div className="bg-green-900/30 rounded-lg p-4 border border-green-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-green-400/20">
                     <h5 className="text-green-300 font-semibold mb-2">🛍️ Som de Rua Personalizado</h5>
                     <p className="text-green-100 text-sm">
                       Oferecemos serviços de locução no estilo "ao vivo", com playlist musical personalizada para você colocar 
                       na frente da sua loja ou comércio. Essa estratégia chama a atenção dos clientes, atrai mais público e aumenta suas vendas!
                     </p>
                   </div>
-                  <div className="bg-green-900/30 rounded-lg p-4 border border-green-400/20">
+                  <div className="bg-transparent rounded-lg p-4 border border-green-400/20">
                     <h5 className="text-green-300 font-semibold mb-2">🎯 Gravação para Aumentar Vendas</h5>
                     <p className="text-green-100 text-sm">
                       No Estúdio Carvalho, oferecemos gravação e produção de áudio personalizado, com chamadas impactantes 
