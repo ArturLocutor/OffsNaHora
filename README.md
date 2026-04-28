@@ -119,6 +119,7 @@ Hospede os arquivos de `dist/`. Se usar servidor estático, garanta reescritas d
 
 ## Contato
 - WhatsApp: `https://wa.me/5517981925660`
+- Email: `arturscurciatto@gmail.com`
 
 ---
 Projeto destinado a desenvolvimento/demonstração. Para produção, migre autenticação para backend e aperfeiçoe a segurança conforme guia em `SECURITY_GUIDE.md`.

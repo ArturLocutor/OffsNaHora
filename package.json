@@ -8,7 +8,7 @@
     "dev:integrado": "node server-integrated.cjs",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.0",

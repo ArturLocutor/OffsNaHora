@@ -94,8 +94,8 @@ async function setupDatabase() {
         .from('site_config')
         .upsert([
           { config_key: 'site_title', config_value: 'Artur Sutto - Locutor Profissional', description: 'Título do site' },
-          { config_key: 'contact_email', config_value: 'contato@artursutto.com', description: 'Email de contato' },
-          { config_key: 'whatsapp_number', config_value: '+5511999999999', description: 'Número do WhatsApp' }
+          { config_key: 'contact_email', config_value: 'arturscurciatto@gmail.com', description: 'Email de contato' },
+          { config_key: 'whatsapp_number', config_value: '+5517981925660', description: 'Número do WhatsApp' }
         ]);
       
       if (configError) {

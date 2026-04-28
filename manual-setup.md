@@ -85,8 +85,8 @@ CREATE POLICY "Permitir escrita para usuários autenticados" ON public.clients F
 -- Inserir dados de teste
 INSERT INTO public.site_config (config_key, config_value, description) VALUES
 ('site_title', 'Artur Sutto - Locutor Profissional', 'Título do site'),
-('contact_email', 'contato@artursutto.com', 'Email de contato'),
-('whatsapp_number', '+5511999999999', 'Número do WhatsApp')
+('contact_email', 'arturscurciatto@gmail.com', 'Email de contato'),
+('whatsapp_number', '+5517981925660', 'Número do WhatsApp')
 ON CONFLICT (config_key) DO NOTHING;
 
 INSERT INTO public.site_texts (section, content, description) VALUES
