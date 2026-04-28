@@ -206,9 +206,10 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
        }
        setDialogOpen(false);
        setEditingService(null);
-     } catch (error: any) {
+    } catch (error: unknown) {
        console.error('Erro ao salvar serviço:', error);
-       toast.error(`Erro ao salvar serviço: ${error?.message || String(error)}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      toast.error(`Erro ao salvar serviço: ${errorMessage}`);
      } finally {
        setSaving(false);
      }
@@ -221,11 +222,9 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
          .delete()
          .eq('id', id);
        if (error) throw error;
-       toast.success('Serviço removido com sucesso!');
--      setServices(prev => prev.filter(s => s.id !== id));
--      setServices(prev => prev.filter(s => s.id !== id));
-+      setServices(prev => prev.filter(s => s.id !== id));
-+      await fetchServices(false);
+      toast.success('Serviço removido com sucesso!');
+      setServices(prev => prev.filter(s => s.id !== id));
+      await fetchServices(false);
      } catch (error) {
        console.error('Erro ao remover serviço:', error);
        toast.error('Erro ao remover serviço.');
@@ -258,10 +257,10 @@ const getGradientClassFromColor = (color?: string | null) => COLOR_TO_GRADIENT[c
         supabase.from('services').update({ order_position: idx + 1 }).eq('id', s.id)
       );
       const results = await Promise.all(updates);
-      const failed = results.find(r => (r as any).error);
-      if (failed) throw (failed as any).error;
+      const failed = results.find((r) => !!r.error);
+      if (failed?.error) throw failed.error;
       toast.success('Ordem atualizada!');
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error('Erro ao persistir ordem:', e);
       toast.error('Falha ao salvar nova ordem.');
     } finally {

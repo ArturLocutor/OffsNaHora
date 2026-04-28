@@ -6,6 +6,7 @@ import cors from 'cors';
 
 export const createAudioServer = (port: number = 3001) => {
   const app = express();
+  type AudioFileEntry = { name: string; path: string; size: number };
   
   // Padronizar pasta de áudios e migrar se necessário
   const audiosDir = path.join(process.cwd(), 'public', 'audios');
@@ -23,7 +24,9 @@ export const createAudioServer = (port: number = 3001) => {
       if (fs.existsSync(dest)) { skipped++; continue; }
       try { fs.renameSync(src, dest); migrated++; } catch { skipped++; }
     }
-    try { fs.rmdirSync(audioDirSingular); } catch {}
+    try { fs.rmdirSync(audioDirSingular); } catch {
+      // Pasta pode não estar vazia; não interrompe a inicialização.
+    }
     console.log(`[Padronização] Migração concluída: ${migrated} movidos, ${skipped} ignorados. Use apenas public/audios.`);
   }
 
@@ -91,7 +94,7 @@ export const createAudioServer = (port: number = 3001) => {
       }
 
       const downloadUrl = `https://docs.google.com/uc?export=download&id=${id}`;
-      const response = await fetch(downloadUrl as any);
+      const response = await fetch(downloadUrl);
       if (!response.ok) {
         return res.status(502).json({ success: false, error: `Falha ao baixar do Drive: ${response.status} ${response.statusText}` });
       }
@@ -157,8 +160,8 @@ export const createAudioServer = (port: number = 3001) => {
       const audioDir = audiosDir;
 
       // Função recursiva para ler arquivos em subpastas
-      const readAudioFilesRecursively = (dir: string, relativePath: string = ''): any[] => {
-        const files: any[] = [];
+      const readAudioFilesRecursively = (dir: string, relativePath: string = ''): AudioFileEntry[] => {
+        const files: AudioFileEntry[] = [];
         const items = fs.readdirSync(dir);
         
         for (const item of items) {

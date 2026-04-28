@@ -48,7 +48,7 @@ export const cleanCorruptedAudios = async (): Promise<Audio[]> => {
     
     // Buscar áudios do localStorage
     const storedAudios = localStorage.getItem('siteAudios');
-    let audios: Audio[] = storedAudios ? JSON.parse(storedAudios) : [];
+    const audios: Audio[] = storedAudios ? JSON.parse(storedAudios) : [];
     console.log('📦 Áudios no localStorage antes da limpeza:', audios.length);
     
     // Filtrar apenas áudios que existem no servidor

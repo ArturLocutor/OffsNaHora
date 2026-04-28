@@ -52,6 +52,15 @@ interface Client {
   order_position: number; // Alterado de orderPosition para order_position
 }
 
+interface DisplayService {
+  id?: string;
+  title: string;
+  description?: string | null;
+  order_position?: number;
+  is_best_seller?: boolean;
+  is_recommended?: boolean;
+}
+
 
 
 const Home = () => {
@@ -143,15 +152,15 @@ const Home = () => {
 
   // Priorizar serviços com tags (Mais Vendido/Recomendado) e embaralhar os demais
   const prioritizedServices = useMemo(() => {
-    const list = (services || []).slice();
+    const list = ((services || []) as DisplayService[]).slice();
     const tagged = list
-      .filter((s: any) => s?.is_best_seller || s?.is_recommended)
-      .sort((a: any, b: any) => {
+      .filter((s) => s?.is_best_seller || s?.is_recommended)
+      .sort((a, b) => {
         const ao = typeof a.order_position === 'number' ? a.order_position : 9999;
         const bo = typeof b.order_position === 'number' ? b.order_position : 9999;
         return ao - bo;
       });
-    const others = list.filter((s: any) => !(s?.is_best_seller || s?.is_recommended));
+    const others = list.filter((s) => !(s?.is_best_seller || s?.is_recommended));
     for (let i = others.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [others[i], others[j]] = [others[j], others[i]];
@@ -817,13 +826,6 @@ const Home = () => {
                 </div>
                 <div className="space-y-4">
 <div className="bg-transparent rounded-lg p-4 border border-green-400/20 shadow-md hover:shadow-lg hover:shadow-green-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-green">
-                    <h5 className="text-green-300 font-semibold mb-2">📈 Estratégias de Comunicação</h5>
-                    <p className="text-green-100 text-sm">
-                      Estúdio Rones Carvalho e DM Impulse Digital — comunicação criativa, estratégica e com resultados reais. 
-                      Desenvolvemos estratégias personalizadas para destacar seu negócio no mercado.
-                    </p>
-                  </div>
-<div className="bg-transparent rounded-lg p-4 border border-green-400/20 shadow-md hover:shadow-lg hover:shadow-green-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-green">
                     <h5 className="text-green-300 font-semibold mb-2">🛍️ Som de Rua Personalizado</h5>
                     <p className="text-green-100 text-sm">
                       Oferecemos serviços de locução no estilo "ao vivo", com playlist musical personalizada para você colocar 
@@ -833,7 +835,7 @@ const Home = () => {
 <div className="bg-transparent rounded-lg p-4 border border-green-400/20 shadow-md hover:shadow-lg hover:shadow-green-500/10 transition-shadow hover:animate-float-active hover-glow-bottom glow-green">
                     <h5 className="text-green-300 font-semibold mb-2">🎯 Gravação para Aumentar Vendas</h5>
                     <p className="text-green-100 text-sm">
-                      No Estúdio Carvalho, oferecemos gravação e produção de áudio personalizado, com chamadas impactantes 
+                      Oferecemos gravação e produção de áudio personalizado, com chamadas impactantes 
                       e som de rua, para ajudar sua empresa a vender mais e potencializar suas vendas.
                     </p>
                   </div>
@@ -900,7 +902,7 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 auto-rows-fr">
-            {prioritizedServices.map((service: any) => {
+            {prioritizedServices.map((service) => {
               const getGradientForTitle = (title: string) => {
                 const t = (title || '').toLowerCase();
                 const map: { keys: string[]; gradient: string }[] = [
@@ -1115,12 +1117,12 @@ const Home = () => {
             </div>
             
             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
-            <a href={`mailto:${configs.email || 'contato@offsnahora.com.br'}`} className="flex items-center text-blue-300 hover:text-blue-400 transition-colors">
+            <a href={`mailto:${configs.email || 'arturscurciatto@gmail.com'}`} className="flex items-center text-blue-300 hover:text-blue-400 transition-colors">
                 <Mail className="h-5 w-5 mr-2" />
-              <span className="text-sm">{configs.email || 'contato@offsnahora.com.br'}</span>
+              <span className="text-sm">{configs.email || 'arturscurciatto@gmail.com'}</span>
               </a>
             {(() => {
-              const whatsappDigits = ('17991598169').replace(/[^\d]/g, '');
+              const whatsappDigits = ('17981925660').replace(/[^\d]/g, '');
               const formatted = formatBrPhone(whatsappDigits);
               return (
                 <a href={`https://wa.me/${whatsappDigits}`} className="flex items-center text-green-300 hover:text-green-400 transition-colors">

@@ -15,7 +15,9 @@ export const pauseAllExcept = (el?: HTMLAudioElement | null) => {
     if (!el || a !== el) {
       try {
         a.pause();
-      } catch {}
+      } catch {
+        // Alguns navegadores podem lançar erro ao pausar mídia já encerrada.
+      }
     }
   });
 };

@@ -43,14 +43,14 @@ const ContactForm = () => {
   }, []);
 
   useEffect(() => {
-    const handleSelectService = (e: any) => {
-      const selectedTitle = e?.detail as string;
+    const handleSelectService = (event: Event) => {
+      const selectedTitle = (event as CustomEvent<string>).detail;
       if (selectedTitle) {
         setFormData(prev => ({ ...prev, locationType: selectedTitle }));
       }
     };
-    window.addEventListener('selectService', handleSelectService as any);
-    return () => window.removeEventListener('selectService', handleSelectService as any);
+    window.addEventListener('selectService', handleSelectService as EventListener);
+    return () => window.removeEventListener('selectService', handleSelectService as EventListener);
   }, []);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -90,7 +90,7 @@ Aguardo seu retorno com o orçamento personalizado!
 
     const encodedMessage = encodeURIComponent(message);
     recordEvent('whatsapp_contact_sent', { service: formData.locationType, duration: formData.duration });
-    const whatsappNumber = ('17991598169').replace(/[^\d]/g, '');
+    const whatsappNumber = ('17981925660').replace(/[^\d]/g, '');
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank");
     
     setIsSubmitting(false);
@@ -269,7 +269,7 @@ Aguardo seu retorno com o orçamento personalizado!
 
           <div className="text-center space-y-2">
             <p className="text-slate-300 text-sm opacity-80">
-            💬 Seu orçamento será enviado diretamente para o WhatsApp do Offs Na Hora • {formatBrPhone('17991598169')}
+            💬 Seu orçamento será enviado diretamente para o WhatsApp do Offs Na Hora • {formatBrPhone('17981925660')}
             </p>
             <div className="flex justify-center items-center gap-4 text-xs text-slate-400">
               <span className="flex items-center gap-1">

@@ -130,6 +130,13 @@ export interface DriveFile {
   size?: string;
 }
 
+type DriveApiFile = {
+  id: string;
+  name: string;
+  mimeType?: string;
+  size?: string;
+};
+
 /**
  * Lista todos os arquivos de áudio de uma pasta do Google Drive
  * Usa a implementação real da Google Drive API
@@ -194,7 +201,9 @@ export const listAudioFilesFromPublicFolder = async (folderId: string): Promise<
         try {
           const errData = await response.json();
           if (errData?.error?.message) apiErrorMsg = errData.error.message;
-        } catch {}
+        } catch {
+          // Mantém mensagem padrão quando o corpo não é JSON.
+        }
         throw new Error(
           `${apiErrorMsg} Verifique se a pasta está compartilhada publicamente (Qualquer pessoa com o link, Visualizador). ` +
           `Se for um Shared Drive, garanta que a pasta e os itens estejam públicos. ` +
@@ -213,15 +222,15 @@ export const listAudioFilesFromPublicFolder = async (folderId: string): Promise<
       throw new Error(`Erro da API do Google Drive: ${data.error.message}`);
     }
     
-    const files = data.files || [];
+    const files = (data.files || []) as DriveApiFile[];
     
     // Filtra apenas arquivos de áudio
-    const audioFiles = files.filter((file: any) => {
+    const audioFiles = files.filter((file) => {
       return isAudioMimeType(file.mimeType) || isAudioFile(file.name);
     });
     
     // Converte para o formato DriveFile
-    return audioFiles.map((file: any): DriveFile => ({
+    return audioFiles.map((file): DriveFile => ({
       id: file.id,
       name: file.name,
       mimeType: file.mimeType || 'application/octet-stream',

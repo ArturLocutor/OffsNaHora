@@ -98,7 +98,9 @@ const PublicAudioPlayer: React.FC<PublicAudioPlayerProps> = ({ title, fileName, 
           file: audioFileName,
           source: audioUrl?.includes('supabase') ? 'supabase' : 'local'
         });
-      } catch {}
+      } catch {
+        // Ignora erro de telemetria para não bloquear a reprodução.
+      }
       setIsPlaying(true);
     }
   };
