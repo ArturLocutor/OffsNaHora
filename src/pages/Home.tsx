@@ -1117,12 +1117,12 @@ const Home = () => {
             </div>
             
             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
-            <a href={`mailto:${configs.email || 'arturscurciatto@gmail.com'}`} className="flex items-center text-blue-300 hover:text-blue-400 transition-colors">
+            <a href={`mailto:${configs.email || 'offsnahoralocucoes@gmail.com'}`} className="flex items-center text-blue-300 hover:text-blue-400 transition-colors">
                 <Mail className="h-5 w-5 mr-2" />
-              <span className="text-sm">{configs.email || 'arturscurciatto@gmail.com'}</span>
+              <span className="text-sm">{configs.email || 'offsnahoralocucoes@gmail.com'}</span>
               </a>
             {(() => {
-              const whatsappDigits = ('17981925660').replace(/[^\d]/g, '');
+              const whatsappDigits = ('17991598169').replace(/[^\d]/g, '');
               const formatted = formatBrPhone(whatsappDigits);
               return (
                 <a href={`https://wa.me/${whatsappDigits}`} className="flex items-center text-green-300 hover:text-green-400 transition-colors">
