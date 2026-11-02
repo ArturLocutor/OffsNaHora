@@ -269,7 +269,7 @@ Aguardo seu retorno com o orçamento personalizado!
 
           <div className="text-center space-y-2">
             <p className="text-slate-300 text-sm opacity-80">
-            💬 Seu orçamento será enviado diretamente para o WhatsApp do Offs Na Hora • {formatBrPhone('17981925660')}
+            💬 Seu orçamento será enviado diretamente para o WhatsApp do Offs Na Hora • {formatBrPhone('17991598169')}
             </p>
             <div className="flex justify-center items-center gap-4 text-xs text-slate-400">
               <span className="flex items-center gap-1">
