@@ -145,7 +145,7 @@ const Header = () => {
               </button>
               
               {(() => {
-                const whatsappDigits = ('17981925660').replace(/[^\d]/g, '');
+                const whatsappDigits = ('17991598169').replace(/[^\d]/g, '');
                 const whatsappLabel = formatBrPhone(whatsappDigits);
                 return (
                   <div className="px-4 pt-3 sm:pt-4 border-t border-white/10">
