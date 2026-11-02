@@ -90,7 +90,7 @@ Aguardo seu retorno com o orçamento personalizado!
 
     const encodedMessage = encodeURIComponent(message);
     recordEvent('whatsapp_contact_sent', { service: formData.locationType, duration: formData.duration });
-    const whatsappNumber = ('17981925660').replace(/[^\d]/g, '');
+    const whatsappNumber = ('17991598169').replace(/[^\d]/g, '');
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank");
     
     setIsSubmitting(false);
